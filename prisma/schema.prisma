@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  email             String             @unique
+  password          String
+  fullName          String?            @default("") @map("full_name")
+  profilePictureUrl String?            @map("profile_picture_url")
+  themes            Theme[]
+  learningProgress  LearningProgress[]
+
+  @@map("user")
+}
+
+model Theme {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  userId           String             @map("user_id")
+  title            String
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content          Content[]
+  learningProgress LearningProgress[]
+
+  @@map("theme")
+}
+
+model Content {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  themeId          String   @map("theme_id")
+  sentence         String
+  translation      String
+  transcription    String?
+  exampleSentences String[] @map("example_sentences")
+  imageUrl         String?  @map("image_url")
+  theme            Theme    @relation(fields: [themeId], references: [id], onDelete: Cascade)
+
+  @@map("content")
+}
+
+model LearningProgress {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  userId        String    @map("user_id")
+  themeId       String    @map("theme_id")
+  wordsLearned  Int       @default(0) @map("words_learned")
+  accuracyRate  Float?    @default(0) @map("accuracy_rate")
+  lastStudiedAt DateTime? @map("last_studied_at")
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  theme         Theme     @relation(fields: [themeId], references: [id], onDelete: Cascade)
+
+  @@map("learning_progres")
+}
