@@ -24,6 +24,10 @@ type Query {
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
+  login(login: CreateUserInput!): User!
+  register(login: CreateUserInput!): User!
+  getNewTokens: User!
+  logout: User!
 }
 
 input CreateUserInput {
