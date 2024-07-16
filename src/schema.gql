@@ -37,7 +37,7 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   register(registerDto: CreateUserInput!): AuthResponse!
   getNewTokens: AuthResponse!
-  logout: User!
+  logout: Boolean!
 }
 
 input UpdateUserInput {

@@ -13,6 +13,7 @@ import { CreateUserInput } from 'src/user/dto/create-user.input';
 import { Request, Response } from 'express';
 import { AuthResponse } from './dto/auth-response.dto';
 import { JwtAuthGuard } from './guards/jwt.guard';
+import { Auth } from './decorators/auth.decorator';
 
 @Resolver(() => AuthResponse)
 export class AuthResolver {
@@ -64,11 +65,11 @@ export class AuthResolver {
     return response;
   }
 
-  @Mutation(() => User)
+  @Mutation(() => Boolean)
   @UsePipes(new ValidationPipe())
-  async logout(@Res({ passthrough: true }) res: Response) {
-    this.authService.removeRefreshTokenFromResponse(res);
-
+  @Auth()
+  async logout(@Context() context) {
+    this.authService.removeRefreshTokenFromResponse(context.res);
     return true;
   }
 }
