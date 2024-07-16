@@ -17,23 +17,21 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type AuthResponse {
+  user: User!
+  accessToken: String!
+}
+
 type Query {
   user(id: String!): User!
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  login(login: CreateUserInput!): User!
-  register(login: CreateUserInput!): User!
+  login(loginDto: CreateUserInput!): User!
+  register(registerDto: CreateUserInput!): AuthResponse!
   getNewTokens: User!
   logout: User!
-}
-
-input CreateUserInput {
-  email: String!
-  password: String!
-  fullName: String
 }
 
 input UpdateUserInput {
@@ -41,4 +39,10 @@ input UpdateUserInput {
   password: String
   fullName: String
   id: String!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  fullName: String
 }

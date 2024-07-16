@@ -34,11 +34,11 @@ export class AuthService {
   async register(dto: CreateUserInput) {
     const oldUser = await this.userService.getByEmail(dto.email);
 
-    if (oldUser) throw new BadRequestException('User already exists');
+    if (oldUser) throw new Error('User already exists');
 
     const { password, ...user } = await this.userService.create(dto);
 
-    const tokens = this.issueTokens(user.id);
+    const tokens = await this.issueTokens(user.id);
 
     return {
       user,

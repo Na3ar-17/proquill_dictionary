@@ -12,7 +12,7 @@ export class CreateUserInput {
   @MinLength(6, { message: 'At least 6 charakters' })
   password: string;
 
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   @IsString()
   fullName?: string;
 }

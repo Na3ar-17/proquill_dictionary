@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { User } from '../user/entities/user.entity';
 import {
@@ -10,14 +10,16 @@ import {
 } from '@nestjs/common';
 import { CreateUserInput } from 'src/user/dto/create-user.input';
 import { Request, Response } from 'express';
-@Resolver(() => User)
+import { AuthResponse } from './dto/auth-response.dto';
+
+@Resolver(() => AuthResponse)
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
   @Mutation(() => User)
   @UsePipes(new ValidationPipe())
   async login(
-    @Args('login') dto: CreateUserInput,
+    @Args('loginDto') dto: CreateUserInput,
     @Res({ passthrough: true }) res: Response,
   ) {
     const { refreshToken, ...response } = await this.authService.login(dto);
@@ -26,14 +28,15 @@ export class AuthResolver {
     return response;
   }
 
-  @Mutation(() => User)
+  @Mutation(() => AuthResponse)
   @UsePipes(new ValidationPipe())
   async register(
-    @Args('login') dto: CreateUserInput,
-    @Res({ passthrough: true }) res: Response,
+    @Args('registerDto') dto: CreateUserInput,
+    @Context() context,
   ) {
+    const res: Response = context.res;
     const { refreshToken, ...response } = await this.authService.register(dto);
-    this.authService.addRefreshTokenToResponse(res, refreshToken);
+    await this.authService.addRefreshTokenToResponse(res, refreshToken);
 
     return response;
   }

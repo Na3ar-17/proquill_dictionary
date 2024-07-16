@@ -17,9 +17,9 @@ export class User {
   @Field(() => String)
   password: string;
 
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   fullName?: string;
 
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   profilePictureUrl?: string;
 }

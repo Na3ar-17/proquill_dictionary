@@ -34,6 +34,7 @@ export class UserService {
       fullName: dto.fullName,
       password: await hash(dto.password),
     };
+
     const newUser = await this.prisma.user.create({
       data: user,
     });
