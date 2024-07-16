@@ -23,7 +23,7 @@ type AuthResponse {
 }
 
 type Query {
-  user(id: String!): User!
+  findOne: User!
   login(loginDto: CreateUserInput!): AuthResponse!
 }
 
@@ -44,5 +44,4 @@ input UpdateUserInput {
   email: String
   password: String
   fullName: String
-  id: String!
 }
