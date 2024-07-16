@@ -24,11 +24,17 @@ type AuthResponse {
 
 type Query {
   user(id: String!): User!
+  login(loginDto: CreateUserInput!): AuthResponse!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  fullName: String
 }
 
 type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
-  login(loginDto: CreateUserInput!): User!
   register(registerDto: CreateUserInput!): AuthResponse!
   getNewTokens: User!
   logout: User!
@@ -39,10 +45,4 @@ input UpdateUserInput {
   password: String
   fullName: String
   id: String!
-}
-
-input CreateUserInput {
-  email: String!
-  password: String!
-  fullName: String
 }
