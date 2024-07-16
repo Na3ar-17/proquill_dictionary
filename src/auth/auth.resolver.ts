@@ -14,15 +14,19 @@ import { Request, Response } from 'express';
 import { AuthResponse } from './dto/auth-response.dto';
 import { JwtAuthGuard } from './guards/jwt.guard';
 import { Auth } from './decorators/auth.decorator';
+import { GqlContext } from 'src/types/context.type';
 
 @Resolver(() => AuthResponse)
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Query(() => AuthResponse)
+  @Mutation(() => AuthResponse)
   @UsePipes(new ValidationPipe())
-  async login(@Args('loginDto') dto: CreateUserInput, @Context() context) {
-    const res: Response = context.res;
+  async login(
+    @Args('loginDto') dto: CreateUserInput,
+    @Context() context: GqlContext,
+  ) {
+    const res = context.res;
     const { refreshToken, ...response } = await this.authService.login(dto);
     this.authService.addRefreshTokenToResponse(res, refreshToken);
 
@@ -33,9 +37,9 @@ export class AuthResolver {
   @UsePipes(new ValidationPipe())
   async register(
     @Args('registerDto') dto: CreateUserInput,
-    @Context() context,
+    @Context() context: GqlContext,
   ) {
-    const res: Response = context.res;
+    const res = context.res;
     const { refreshToken, ...response } = await this.authService.register(dto);
     await this.authService.addRefreshTokenToResponse(res, refreshToken);
 
