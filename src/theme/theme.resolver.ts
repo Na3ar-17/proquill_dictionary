@@ -16,4 +16,10 @@ export class ThemeResolver {
   async create(@CurrentUser('id') userId: string) {
     return await this.themeService.create(userId);
   }
+
+  @Query(() => [Theme], { name: 'getAllThemes' })
+  @Auth()
+  async findAll(@CurrentUser('id') userId: string) {
+    return await this.themeService.findAll(userId);
+  }
 }

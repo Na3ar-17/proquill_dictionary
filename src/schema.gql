@@ -34,6 +34,7 @@ type AuthResponse {
 
 type Query {
   findOne: User!
+  getAllThemes: [Theme!]!
 }
 
 type Mutation {

@@ -28,11 +28,13 @@ export class ThemeService {
   }
 
   async findAll(userId: string) {
-    return await this.prisma.theme.findMany({
+    const themes = await this.prisma.theme.findMany({
       where: {
         userId,
       },
     });
+
+    return themes;
   }
 
   async findOne(id: string, userId: string) {
