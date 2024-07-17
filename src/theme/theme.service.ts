@@ -1,26 +1,49 @@
 import { Injectable } from '@nestjs/common';
 import { CreateThemeInput } from './dto/create-theme.input';
 import { UpdateThemeInput } from './dto/update-theme.input';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class ThemeService {
-  create(createThemeInput: CreateThemeInput) {
-    return 'This action adds a new theme';
+  constructor(private prisma: PrismaService) {}
+
+  async create(createThemeInput: CreateThemeInput) {
+    const themes = await this.findAll(createThemeInput.userId);
+
+    const themeTitle =
+      (await themes.length) > 0 ? `Untitled ${themes.length}` : 'Untitled';
+
+    const newTheme = await this.prisma.theme.create({
+      data: {
+        title: themeTitle,
+        user: {
+          connect: {
+            id: createThemeInput.userId,
+          },
+        },
+      },
+    });
+
+    return newTheme;
   }
 
-  findAll() {
-    return `This action returns all theme`;
+  async findAll(userId: string) {
+    return await this.prisma.theme.findMany({
+      where: {
+        userId,
+      },
+    });
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return `This action returns a #${id} theme`;
   }
 
-  update(id: number, updateThemeInput: UpdateThemeInput) {
+  async update(id: number, updateThemeInput: UpdateThemeInput) {
     return `This action updates a #${id} theme`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} theme`;
   }
 }
