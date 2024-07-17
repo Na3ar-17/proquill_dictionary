@@ -11,7 +11,7 @@ export class ThemeService {
     const themes = await this.findAll(createThemeInput.userId);
 
     const themeTitle =
-      (await themes.length) > 0 ? `Untitled ${themes.length}` : 'Untitled';
+      (await themes.length) > 0 ? `Untitled-${themes.length}` : 'Untitled';
 
     const newTheme = await this.prisma.theme.create({
       data: {
@@ -35,15 +35,25 @@ export class ThemeService {
     });
   }
 
-  async findOne(id: number) {
-    return `This action returns a #${id} theme`;
+  async findOne(id: string, userId: string) {
+    const theme = await this.prisma.theme.findUnique({
+      where: {
+        id,
+        userId,
+      },
+    });
+
+    if (!theme) {
+      throw new Error('Theme not found');
+    }
+    return theme;
   }
 
-  async update(id: number, updateThemeInput: UpdateThemeInput) {
+  async update(id: string, updateThemeInput: UpdateThemeInput) {
     return `This action updates a #${id} theme`;
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     return `This action removes a #${id} theme`;
   }
 }
