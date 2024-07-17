@@ -42,7 +42,7 @@ type Mutation {
   register(registerDto: CreateUserInput!): AuthResponse!
   getNewTokens: AuthResponse!
   logout: Boolean!
-  create(createThemeInput: CreateThemeInput!): Theme!
+  createTheme: Theme!
 }
 
 input UpdateUserInput {
@@ -55,8 +55,4 @@ input CreateUserInput {
   email: String!
   password: String!
   fullName: String
-}
-
-input CreateThemeInput {
-  userId: String!
 }

@@ -7,8 +7,8 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ThemeService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createThemeInput: CreateThemeInput) {
-    const themes = await this.findAll(createThemeInput.userId);
+  async create(userId: string) {
+    const themes = await this.findAll(userId);
 
     const themeTitle =
       (await themes.length) > 0 ? `Untitled-${themes.length}` : 'Untitled';
@@ -18,7 +18,7 @@ export class ThemeService {
         title: themeTitle,
         user: {
           connect: {
-            id: createThemeInput.userId,
+            id: userId,
           },
         },
       },

@@ -4,15 +4,16 @@ import { Theme } from './entities/theme.entity';
 import { CreateThemeInput } from './dto/create-theme.input';
 import { UpdateThemeInput } from './dto/update-theme.input';
 import { Auth } from 'src/auth/decorators/auth.decorator';
+import { CurrentUser } from 'src/auth/decorators/user.decorator';
 
 @Resolver(() => Theme)
 export class ThemeResolver {
   constructor(private readonly themeService: ThemeService) {}
 
-  @Mutation(() => Theme)
+  @Mutation(() => Theme, { name: 'createTheme' })
   // @UsePipes(new ValidationPipe())
   @Auth()
-  async create(@Args('createThemeInput') createThemeInput: CreateThemeInput) {
-    return await this.themeService.create(createThemeInput);
+  async create(@CurrentUser('id') userId: string) {
+    return await this.themeService.create(userId);
   }
 }
