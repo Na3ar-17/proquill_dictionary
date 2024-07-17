@@ -24,6 +24,6 @@ export class User {
   @Field({ nullable: true })
   profilePictureUrl?: string;
 
-  @Field(() => [Theme], { nullable: true })
-  themes?: Theme[];
+  @Field(() => [Theme])
+  themes: Theme[];
 }

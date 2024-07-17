@@ -24,7 +24,7 @@ type User {
   password: String!
   fullName: String
   profilePictureUrl: String
-  themes: [Theme!]
+  themes: [Theme!]!
 }
 
 type AuthResponse {

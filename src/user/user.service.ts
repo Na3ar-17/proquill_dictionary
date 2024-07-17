@@ -13,6 +13,9 @@ export class UserService {
       where: {
         id: id,
       },
+      include: {
+        themes: true,
+      },
     });
 
     if (!user) throw new NotFoundException('User not found');
