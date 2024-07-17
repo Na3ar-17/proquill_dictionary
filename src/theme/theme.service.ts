@@ -65,7 +65,16 @@ export class ThemeService {
     return updated;
   }
 
-  async remove(id: string) {
-    return `This action removes a #${id} theme`;
+  async remove(ids: string[], userId: string) {
+    const deleted = await this.prisma.theme.deleteMany({
+      where: {
+        userId,
+        id: {
+          in: ids,
+        },
+      },
+    });
+
+    return deleted;
   }
 }
