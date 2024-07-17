@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 import { User } from 'src/user/entities/user.entity';
 
 @ObjectType()
@@ -12,10 +12,10 @@ export class Theme {
   @Field(() => Date)
   updatedAt: Date;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: false })
   userId: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   title: string;
 
   @Field(() => User)

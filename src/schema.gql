@@ -60,12 +60,10 @@ input CreateUserInput {
 }
 
 input CreateThemeInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  userId: String!
 }
 
 input UpdateThemeInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  userId: String
   id: Int!
 }
