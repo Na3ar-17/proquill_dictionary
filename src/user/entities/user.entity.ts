@@ -1,4 +1,5 @@
 import { ObjectType, Field } from '@nestjs/graphql';
+import { Theme } from 'src/theme/entities/theme.entity';
 
 @ObjectType()
 export class User {
@@ -22,4 +23,7 @@ export class User {
 
   @Field({ nullable: true })
   profilePictureUrl?: string;
+
+  @Field(() => [Theme], { nullable: true })
+  themes?: Theme[];
 }

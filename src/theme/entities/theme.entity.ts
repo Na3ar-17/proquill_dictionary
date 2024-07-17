@@ -16,7 +16,7 @@ export class Theme {
   userId: string;
 
   @Field(() => String, { nullable: true })
-  title: string;
+  title?: string;
 
   @Field(() => User)
   user: User;
