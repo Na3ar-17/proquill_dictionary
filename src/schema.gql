@@ -22,8 +22,18 @@ type AuthResponse {
   accessToken: String!
 }
 
+type Theme {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  userId: String!
+  title: String!
+  user: User!
+}
+
 type Query {
   findOne: User!
+  theme(id: Int!): Theme!
 }
 
 type Mutation {
@@ -32,6 +42,9 @@ type Mutation {
   register(registerDto: CreateUserInput!): AuthResponse!
   getNewTokens: AuthResponse!
   logout: Boolean!
+  createTheme(createThemeInput: CreateThemeInput!): Theme!
+  updateTheme(updateThemeInput: UpdateThemeInput!): Theme!
+  removeTheme(id: Int!): Theme!
 }
 
 input UpdateUserInput {
@@ -44,4 +57,15 @@ input CreateUserInput {
   email: String!
   password: String!
   fullName: String
+}
+
+input CreateThemeInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateThemeInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
