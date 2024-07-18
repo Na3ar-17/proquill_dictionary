@@ -25,8 +25,15 @@ export class ContentService {
     return newContent;
   }
 
-  async findAll() {
-    return `This action returns all content`;
+  async findAll(themeId: string, userId: string) {
+    return await this.prisma.content.findMany({
+      where: {
+        theme: {
+          userId,
+          id: themeId,
+        },
+      },
+    });
   }
 
   async findOne(id: number) {

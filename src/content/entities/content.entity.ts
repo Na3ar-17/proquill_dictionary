@@ -1,4 +1,5 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
+import { IsOptional } from 'class-validator';
 
 @ObjectType()
 export class Content {
@@ -21,11 +22,14 @@ export class Content {
   translation: string;
 
   @Field(() => String, { nullable: true })
+  @IsOptional()
   transcription?: string;
 
-  @Field(() => [String])
-  exampleSentences: string[];
+  @Field(() => [String], { nullable: true })
+  @IsOptional()
+  exampleSentences?: string[];
 
   @Field(() => String, { nullable: true })
+  @IsOptional()
   imageUrl?: string;
 }

@@ -20,10 +20,11 @@ export class CreateContentInput extends PickType(Content, [
   @IsString()
   translation: string;
 
-  @Field(() => [String])
-  exampleSentences: string[];
+  @Field(() => [String], { nullable: true })
+  @IsOptional()
+  exampleSentences?: string[];
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @IsString()
   @IsOptional()
   imageUrl?: string;
@@ -32,7 +33,7 @@ export class CreateContentInput extends PickType(Content, [
   @IsString()
   themeId: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @IsString()
   @IsOptional()
   transcription?: string;

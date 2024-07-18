@@ -40,7 +40,7 @@ type Content {
   sentence: String!
   translation: String!
   transcription: String
-  exampleSentences: [String!]!
+  exampleSentences: [String!]
   imageUrl: String
 }
 
@@ -82,8 +82,8 @@ input UpdateThemeInput {
 input CreateContentInput {
   sentence: String!
   translation: String!
-  exampleSentences: [String!]!
-  imageUrl: String!
+  exampleSentences: [String!]
+  imageUrl: String
   themeId: String!
-  transcription: String!
+  transcription: String
 }
