@@ -29,6 +29,12 @@ export class ContentResolver {
     return await this.contentService.findAll(themeId, userId);
   }
 
+  @Query(() => Content, { name: 'getOneContent' })
+  @Auth()
+  async findOne(@Args('themeId') themeId: string, @Args('id') id: string) {
+    return await this.contentService.findOne(id, themeId);
+  }
+
   @Mutation(() => Content, { name: 'updateContent' })
   @UsePipes(new ValidationPipe())
   @Auth()

@@ -36,10 +36,11 @@ export class ContentService {
     });
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, themeId: string) {
     const content = await this.prisma.content.findUnique({
       where: {
         id,
+        themeId,
       },
     });
 
@@ -49,7 +50,10 @@ export class ContentService {
   }
 
   async update(updateContentInput: UpdateContentInput) {
-    const content = await this.findOne(updateContentInput.id);
+    const content = await this.findOne(
+      updateContentInput.id,
+      updateContentInput.themeId,
+    );
 
     const updated = await this.prisma.content.update({
       where: {

@@ -49,6 +49,7 @@ type Query {
   getAllThemes: [Theme!]!
   getOneTheme(id: String!): Theme!
   getAllContent(themeId: String!): [Content!]!
+  getOneContent(themeId: String!, id: String!): Content!
 }
 
 type Mutation {
