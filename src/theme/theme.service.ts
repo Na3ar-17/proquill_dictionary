@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateThemeInput } from './dto/create-theme.input';
 import { UpdateThemeInput } from './dto/update-theme.input';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -48,6 +47,7 @@ export class ThemeService {
     if (!theme) {
       throw new Error('Theme not found');
     }
+
     return theme;
   }
 
