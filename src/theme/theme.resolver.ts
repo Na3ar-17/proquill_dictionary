@@ -1,7 +1,6 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { ThemeService } from './theme.service';
 import { Theme } from './entities/theme.entity';
-import { CreateThemeInput } from './dto/create-theme.input';
 import { UpdateThemeInput } from './dto/update-theme.input';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { CurrentUser } from 'src/auth/decorators/user.decorator';
@@ -38,5 +37,14 @@ export class ThemeResolver {
     @Args('updateThemeInput') updateThemeInput: UpdateThemeInput,
   ) {
     return await this.themeService.update(updateThemeInput, userId);
+  }
+
+  @Mutation(() => Int, { name: 'deleteOneOrMoreTheme' })
+  @Auth()
+  async delete(
+    @Args({ name: 'ids', type: () => [String] }) ids: string[],
+    @CurrentUser('id') userId: string,
+  ) {
+    return await this.themeService.delete(ids, userId);
   }
 }

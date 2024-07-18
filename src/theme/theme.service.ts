@@ -67,16 +67,16 @@ export class ThemeService {
     return updated;
   }
 
-  async remove(ids: string[], userId: string) {
+  async delete(ids: string[], userId: string) {
     const deleted = await this.prisma.theme.deleteMany({
       where: {
         userId,
         id: {
-          in: ids,
+          in: ids.join(' ').split(' '),
         },
       },
     });
 
-    return deleted;
+    return deleted.count;
   }
 }
