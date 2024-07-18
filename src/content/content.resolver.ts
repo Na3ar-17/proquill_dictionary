@@ -5,6 +5,7 @@ import { CreateContentInput } from './dto/create-content.input';
 import { UpdateContentInput } from './dto/update-content.input';
 import { UsePipes, ValidationPipe } from '@nestjs/common';
 import { Auth } from 'src/auth/decorators/auth.decorator';
+import { CurrentUser } from 'src/auth/decorators/user.decorator';
 
 @Resolver(() => Content)
 export class ContentResolver {
@@ -17,5 +18,14 @@ export class ContentResolver {
     @Args('createContentInput') createContentInput: CreateContentInput,
   ) {
     return await this.contentService.create(createContentInput);
+  }
+
+  @Query(() => [Content], { name: 'getAllContent' })
+  @Auth()
+  async findAll(
+    @Args('themeId') themeId: string,
+    @CurrentUser('id') userId: string,
+  ) {
+    return await this.contentService.findAll(themeId, userId);
   }
 }
