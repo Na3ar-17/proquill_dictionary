@@ -72,7 +72,16 @@ export class ContentService {
     return updated;
   }
 
-  async delete(id: string) {
-    return `This action removes a #${id} content`;
+  async delete(ids: string[], themeId: string) {
+    const deleted = await this.prisma.content.deleteMany({
+      where: {
+        themeId,
+        id: {
+          in: ids.join(' ').split(' '),
+        },
+      },
+    });
+
+    return deleted.count;
   }
 }
