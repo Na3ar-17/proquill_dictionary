@@ -36,15 +36,23 @@ export class ContentService {
     });
   }
 
-  async findOne(id: number) {
-    return `This action returns a #${id} content`;
+  async findOne(id: string) {
+    const content = await this.prisma.content.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!content) throw new Error('Content not found');
+
+    return content;
   }
 
-  async update(id: number, updateContentInput: UpdateContentInput) {
+  async update(id: string, updateContentInput: UpdateContentInput) {
     return `This action updates a #${id} content`;
   }
 
-  async delete(id: number) {
+  async delete(id: string) {
     return `This action removes a #${id} content`;
   }
 }
