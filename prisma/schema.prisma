@@ -55,12 +55,11 @@ model Content {
 }
 
 model LearningProgress {
-  id        String   @id @default(uuid())
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   userId        String    @map("user_id")
-  themeId       String    @map("theme_id") @unique
+  themeId       String    @map("theme_id") @unique @id
   wordsLearned  Int       @default(0) @map("words_learned")
   accuracyRate  Int?    @default(0) @map("accuracy_rate")
   lastStudiedAt DateTime? @map("last_studied_at")
