@@ -51,16 +51,16 @@ export class ThemeService {
     return theme;
   }
 
-  async update(id: string, updateThemeInput: UpdateThemeInput) {
-    const theme = await this.findOne(id, updateThemeInput.userId);
+  async update(updateThemeInput: UpdateThemeInput, userId: string) {
+    const theme = await this.findOne(updateThemeInput.id, userId);
 
     const updated = await this.prisma.theme.update({
       where: {
-        id,
-        userId: theme.userId,
+        id: updateThemeInput.id,
+        userId: userId,
       },
       data: {
-        title: updateThemeInput.title,
+        title: updateThemeInput.title || theme.title,
       },
     });
 

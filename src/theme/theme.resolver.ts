@@ -29,4 +29,14 @@ export class ThemeResolver {
   async findOne(@Args('id') id: string, @CurrentUser('id') userId: string) {
     return await this.themeService.findOne(id, userId);
   }
+
+  @Mutation(() => Theme, { name: 'updateTheme' })
+  @Auth()
+  @UsePipes(new ValidationPipe())
+  async update(
+    @CurrentUser('id') userId: string,
+    @Args('updateThemeInput') updateThemeInput: UpdateThemeInput,
+  ) {
+    return await this.themeService.update(updateThemeInput, userId);
+  }
 }
