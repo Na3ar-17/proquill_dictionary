@@ -37,4 +37,13 @@ export class ContentResolver {
   ) {
     return await this.contentService.update(updateContentInput);
   }
+
+  @Mutation(() => Int, { name: 'deleteOneOrMoreContent' })
+  @Auth()
+  async delete(
+    @Args({ name: 'ids', type: () => [String] }) ids: string[],
+    @Args('themeId') themeId: string,
+  ) {
+    return await this.contentService.delete(ids, themeId);
+  }
 }
