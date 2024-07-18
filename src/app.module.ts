@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { join } from 'path';
 import { ThemeModule } from './theme/theme.module';
+import { ContentModule } from './content/content.module';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -23,6 +24,7 @@ import { ThemeModule } from './theme/theme.module';
     ConfigModule.forRoot(),
     AuthModule,
     ThemeModule,
+    ContentModule,
   ],
   providers: [PrismaService],
 })
