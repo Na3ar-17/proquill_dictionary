@@ -49,7 +49,27 @@ export class ContentService {
   }
 
   async update(id: string, updateContentInput: UpdateContentInput) {
-    return `This action updates a #${id} content`;
+    const content = await this.findOne(id);
+
+    const updated = await this.prisma.content.update({
+      where: {
+        id,
+        theme: {
+          id: content.themeId,
+        },
+      },
+      data: {
+        exampleSentences:
+          updateContentInput.exampleSentences || content.exampleSentences,
+        sentence: updateContentInput.sentence || content.sentence,
+        transcription:
+          updateContentInput.transcription || content.transcription,
+        translation: updateContentInput.translation || content.translation,
+        imageUrl: updateContentInput.imageUrl || content.imageUrl,
+      },
+    });
+
+    return updated;
   }
 
   async delete(id: string) {
