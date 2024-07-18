@@ -2,9 +2,6 @@ import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 
 @ObjectType()
 export class LearningProgress {
-  @Field(() => String)
-  id: string;
-
   @Field(() => Date)
   createdAt: Date;
 

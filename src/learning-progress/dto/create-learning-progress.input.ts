@@ -1,4 +1,10 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
-export class CreateLearningProgressInput {}
+export class CreateLearningProgressInput {
+  @Field(() => String)
+  userId: string;
+
+  @Field(() => String)
+  themeId: string;
+}
