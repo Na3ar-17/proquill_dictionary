@@ -1,5 +1,7 @@
-import { CreateContentInput } from './create-content.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { Content } from '../entities/content.entity';
+import { InputType, PartialType, OmitType } from '@nestjs/graphql';
 
 @InputType()
-export class UpdateContentInput extends PartialType(CreateContentInput) {}
+export class UpdateContentInput extends PartialType(
+  OmitType(Content, ['createdAt', 'updatedAt'] as const),
+) {}
