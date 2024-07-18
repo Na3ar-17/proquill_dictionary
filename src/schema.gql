@@ -32,6 +32,18 @@ type AuthResponse {
   accessToken: String!
 }
 
+type Content {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  themeId: String!
+  sentence: String!
+  translation: String!
+  transcription: String
+  exampleSentences: [String!]!
+  imageUrl: String
+}
+
 type Query {
   findOne: User!
   getAllThemes: [Theme!]!
@@ -47,6 +59,7 @@ type Mutation {
   createTheme: Theme!
   updateTheme(updateThemeInput: UpdateThemeInput!): Theme!
   deleteOneOrMoreTheme(ids: [String!]!): Int!
+  createContent(createContentInput: CreateContentInput!): Content!
 }
 
 input UpdateUserInput {
@@ -64,4 +77,13 @@ input CreateUserInput {
 input UpdateThemeInput {
   id: String!
   title: String
+}
+
+input CreateContentInput {
+  sentence: String!
+  translation: String!
+  exampleSentences: [String!]!
+  imageUrl: String!
+  themeId: String!
+  transcription: String!
 }

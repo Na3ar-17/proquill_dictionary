@@ -7,4 +7,11 @@ import { UpdateContentInput } from './dto/update-content.input';
 @Resolver(() => Content)
 export class ContentResolver {
   constructor(private readonly contentService: ContentService) {}
+
+  @Mutation(() => Content, { name: 'createContent' })
+  async create(
+    @Args('createContentInput') createContentInput: CreateContentInput,
+  ) {
+    return await this.contentService.create(createContentInput);
+  }
 }
