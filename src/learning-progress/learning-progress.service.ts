@@ -19,8 +19,4 @@ export class LearningProgressService {
   update(id: number, updateLearningProgressInput: UpdateLearningProgressInput) {
     return `This action updates a #${id} learningProgress`;
   }
-
-  remove(id: number) {
-    return `This action removes a #${id} learningProgress`;
-  }
 }

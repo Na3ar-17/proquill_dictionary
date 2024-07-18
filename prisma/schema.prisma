@@ -31,7 +31,7 @@ model Theme {
   title            String
   user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   content          Content[]
-  learningProgress LearningProgress[]
+  learningProgress LearningProgress?
 
   @@map("theme")
 }
@@ -60,7 +60,7 @@ model LearningProgress {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   userId        String    @map("user_id")
-  themeId       String    @map("theme_id")
+  themeId       String    @map("theme_id") @unique
   wordsLearned  Int       @default(0) @map("words_learned")
   accuracyRate  Float?    @default(0) @map("accuracy_rate")
   lastStudiedAt DateTime? @map("last_studied_at")

@@ -46,18 +46,12 @@ type Content {
   imageUrl: String
 }
 
-type LearningProgress {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 type Query {
   findOne: User!
   getAllThemes: [Theme!]!
   getOneTheme(id: String!): Theme!
   getAllContent(themeId: String!): [Content!]!
   getOneContent(themeId: String!, id: String!): Content!
-  learningProgress(id: Int!): LearningProgress!
 }
 
 type Mutation {
@@ -72,9 +66,6 @@ type Mutation {
   createContent(createContentInput: CreateContentInput!): Content!
   updateContent(updateContentInput: UpdateContentInput!): Content!
   deleteOneOrMoreContent(ids: [String!]!, themeId: String!): Int!
-  createLearningProgress(createLearningProgressInput: CreateLearningProgressInput!): LearningProgress!
-  updateLearningProgress(updateLearningProgressInput: UpdateLearningProgressInput!): LearningProgress!
-  removeLearningProgress(id: Int!): LearningProgress!
 }
 
 input UpdateUserInput {
@@ -113,15 +104,4 @@ input UpdateContentInput {
   translation: String!
   lernedCounts: Int
   hasLearned: Boolean
-}
-
-input CreateLearningProgressInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateLearningProgressInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }
