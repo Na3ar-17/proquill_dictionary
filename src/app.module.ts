@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { join } from 'path';
 import { ThemeModule } from './theme/theme.module';
 import { ContentModule } from './content/content.module';
+import { LearningProgressModule } from './learning-progress/learning-progress.module';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -25,6 +26,7 @@ import { ContentModule } from './content/content.module';
     AuthModule,
     ThemeModule,
     ContentModule,
+    LearningProgressModule,
   ],
   providers: [PrismaService],
 })
