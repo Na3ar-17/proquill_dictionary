@@ -32,16 +32,10 @@ type AuthResponse {
   accessToken: String!
 }
 
-type Content {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 type Query {
   findOne: User!
   getAllThemes: [Theme!]!
   getOneTheme(id: String!): Theme!
-  content(id: Int!): Content!
 }
 
 type Mutation {
@@ -53,9 +47,6 @@ type Mutation {
   createTheme: Theme!
   updateTheme(updateThemeInput: UpdateThemeInput!): Theme!
   deleteOneOrMoreTheme(ids: [String!]!): Int!
-  createContent(createContentInput: CreateContentInput!): Content!
-  updateContent(updateContentInput: UpdateContentInput!): Content!
-  removeContent(id: Int!): Content!
 }
 
 input UpdateUserInput {
@@ -73,15 +64,4 @@ input CreateUserInput {
 input UpdateThemeInput {
   id: String!
   title: String
-}
-
-input CreateContentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateContentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }

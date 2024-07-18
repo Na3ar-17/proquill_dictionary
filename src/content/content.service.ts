@@ -20,7 +20,7 @@ export class ContentService {
     return `This action updates a #${id} content`;
   }
 
-  remove(id: number) {
+  delete(id: number) {
     return `This action removes a #${id} content`;
   }
 }
