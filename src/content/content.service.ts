@@ -48,12 +48,12 @@ export class ContentService {
     return content;
   }
 
-  async update(id: string, updateContentInput: UpdateContentInput) {
-    const content = await this.findOne(id);
+  async update(updateContentInput: UpdateContentInput) {
+    const content = await this.findOne(updateContentInput.id);
 
     const updated = await this.prisma.content.update({
       where: {
-        id,
+        id: updateContentInput.id,
         theme: {
           id: content.themeId,
         },

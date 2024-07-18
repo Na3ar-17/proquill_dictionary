@@ -28,4 +28,13 @@ export class ContentResolver {
   ) {
     return await this.contentService.findAll(themeId, userId);
   }
+
+  @Mutation(() => Content, { name: 'updateContent' })
+  @UsePipes(new ValidationPipe())
+  @Auth()
+  async update(
+    @Args('updateContentInput') updateContentInput: UpdateContentInput,
+  ) {
+    return await this.contentService.update(updateContentInput);
+  }
 }
