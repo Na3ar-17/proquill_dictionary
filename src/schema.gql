@@ -39,6 +39,8 @@ type Content {
   themeId: String!
   sentence: String!
   translation: String!
+  lernedCounts: Int!
+  hasLearned: Boolean!
   transcription: String
   exampleSentences: [String!]
   imageUrl: String
@@ -94,10 +96,12 @@ input CreateContentInput {
 
 input UpdateContentInput {
   id: String!
-  exampleSentences: [String!]!
+  exampleSentences: [String!]
   imageUrl: String
   sentence: String!
   themeId: String!
-  transcription: String!
+  transcription: String
   translation: String!
+  lernedCounts: Int
+  hasLearned: Boolean
 }

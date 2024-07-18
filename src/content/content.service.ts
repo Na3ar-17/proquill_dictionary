@@ -70,6 +70,8 @@ export class ContentService {
           updateContentInput.transcription || content.transcription,
         translation: updateContentInput.translation || content.translation,
         imageUrl: updateContentInput.imageUrl || content.imageUrl,
+        hasLearned: updateContentInput.hasLearned || content.hasLearned,
+        lernedCounts: updateContentInput.lernedCounts || content.lernedCounts,
       },
     });
 

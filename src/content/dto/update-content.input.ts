@@ -1,6 +1,6 @@
-import { IsOptional, MinLength } from 'class-validator';
+import { IsNumber, IsOptional, MinLength } from 'class-validator';
 import { Content } from '../entities/content.entity';
-import { InputType, PartialType, OmitType, Field } from '@nestjs/graphql';
+import { InputType, PartialType, OmitType, Field, Int } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateContentInput extends PartialType(
@@ -9,7 +9,8 @@ export class UpdateContentInput extends PartialType(
   @Field(() => String)
   id: string;
 
-  @Field(() => [String])
+  @Field(() => [String], { nullable: true })
+  @IsOptional()
   exampleSentences?: string[];
 
   @Field(() => String, { nullable: true })
@@ -23,9 +24,20 @@ export class UpdateContentInput extends PartialType(
   @Field(() => String)
   themeId: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
+  @IsOptional()
   transcription?: string;
 
   @Field(() => String)
+  @IsOptional()
   translation?: string;
+
+  @Field(() => Int, { nullable: true })
+  @IsOptional()
+  @IsNumber()
+  lernedCounts?: number;
+
+  @Field(() => Boolean, { nullable: true })
+  @IsOptional()
+  hasLearned?: boolean;
 }

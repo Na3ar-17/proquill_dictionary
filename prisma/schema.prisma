@@ -45,6 +45,8 @@ model Content {
   sentence         String
   translation      String
   transcription    String?
+  lernedCounts Int @default(0) @map("learned_counts")
+  hasLearned Boolean @default(false) @map("has_learned")
   exampleSentences String[] @map("example_sentences")
   imageUrl         String?  @map("image_url")
   theme            Theme    @relation(fields: [themeId], references: [id], onDelete: Cascade)

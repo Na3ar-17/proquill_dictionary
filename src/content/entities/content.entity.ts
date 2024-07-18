@@ -1,4 +1,4 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { IsOptional } from 'class-validator';
 
 @ObjectType()
@@ -20,6 +20,12 @@ export class Content {
 
   @Field(() => String)
   translation: string;
+
+  @Field(() => Int)
+  lernedCounts: number;
+
+  @Field(() => Boolean)
+  hasLearned: boolean;
 
   @Field(() => String, { nullable: true })
   @IsOptional()
