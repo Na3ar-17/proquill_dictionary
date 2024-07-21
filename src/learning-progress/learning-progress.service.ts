@@ -41,12 +41,15 @@ export class LearningProgressService {
     return learningProgress;
   }
 
-  async update(updateLearningProgressInput: UpdateLearningProgressInput) {
-    const { themeId, userId, ...rest } = updateLearningProgressInput;
+  async update(
+    updateLearningProgressInput: UpdateLearningProgressInput,
+    userId: string,
+  ) {
+    const { themeId, ...rest } = updateLearningProgressInput;
 
     const learningProgress = await this.findOne(
       updateLearningProgressInput.themeId,
-      updateLearningProgressInput.userId,
+      userId,
     );
 
     const updated = await this.prisma.learningProgress.update({

@@ -75,6 +75,7 @@ type Mutation {
   createTheme: Theme!
   updateTheme(updateThemeInput: UpdateThemeInput!): Theme!
   deleteOneOrMoreTheme(ids: [String!]!): Int!
+  updateLearningProgress(updateLearningProgressInput: UpdateLearningProgressInput!): LearningProgress!
   createContent(createContentInput: CreateContentInput!): Content!
   updateContent(updateContentInput: UpdateContentInput!): Content!
   deleteOneOrMoreContent(ids: [String!]!, themeId: String!): Int!
@@ -95,6 +96,13 @@ input CreateUserInput {
 input UpdateThemeInput {
   id: String!
   title: String
+}
+
+input UpdateLearningProgressInput {
+  themeId: String!
+  wordsLearned: Int
+  accuracyRate: Int
+  lastStudiedAt: DateTime
 }
 
 input CreateContentInput {

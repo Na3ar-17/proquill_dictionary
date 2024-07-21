@@ -19,4 +19,17 @@ export class LearningProgressResolver {
   ) {
     return await this.learningProgressService.findOne(themeId, userId);
   }
+
+  @Mutation(() => LearningProgress, { name: 'updateLearningProgress' })
+  @Auth()
+  async update(
+    @Args('updateLearningProgressInput')
+    updateLearningProgressInput: UpdateLearningProgressInput,
+    @CurrentUser('id') userId: string,
+  ) {
+    return await this.learningProgressService.update(
+      updateLearningProgressInput,
+      userId,
+    );
+  }
 }

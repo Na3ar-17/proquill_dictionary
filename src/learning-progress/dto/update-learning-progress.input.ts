@@ -1,8 +1,11 @@
 import { CreateLearningProgressInput } from './create-learning-progress.input';
-import { InputType, Field, Int } from '@nestjs/graphql';
+import { InputType, Field, Int, OmitType } from '@nestjs/graphql';
 
 @InputType()
-export class UpdateLearningProgressInput extends CreateLearningProgressInput {
+export class UpdateLearningProgressInput extends OmitType(
+  CreateLearningProgressInput,
+  ['userId'],
+) {
   @Field(() => Int, { nullable: true })
   wordsLearned?: number;
 
