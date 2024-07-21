@@ -26,16 +26,23 @@ export class LearningProgressService {
     return newLearningProgress;
   }
 
-  findAll() {
-    return `This action returns all learningProgress`;
-  }
+  async findOne(themeId: string, userId: string) {
+    const learningProgress = await this.prisma.learningProgress.findUnique({
+      where: {
+        themeId,
+        userId,
+      },
+    });
 
-  async findOne(id: number) {
-    return `This action returns a #${id} learningProgress`;
+    if (!learningProgress) {
+      throw new Error('Not found');
+    }
+
+    return learningProgress;
   }
 
   async update(
-    id: number,
+    id: string,
     updateLearningProgressInput: UpdateLearningProgressInput,
   ) {
     return `This action updates a #${id} learningProgress`;
