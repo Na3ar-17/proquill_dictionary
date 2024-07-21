@@ -41,10 +41,24 @@ export class LearningProgressService {
     return learningProgress;
   }
 
-  async update(
-    id: string,
-    updateLearningProgressInput: UpdateLearningProgressInput,
-  ) {
-    return `This action updates a #${id} learningProgress`;
+  async update(updateLearningProgressInput: UpdateLearningProgressInput) {
+    const { themeId, userId, ...rest } = updateLearningProgressInput;
+
+    const learningProgress = await this.findOne(
+      updateLearningProgressInput.themeId,
+      updateLearningProgressInput.userId,
+    );
+
+    const updated = await this.prisma.learningProgress.update({
+      where: {
+        themeId: learningProgress.themeId,
+        userId: learningProgress.userId,
+      },
+      data: {
+        ...rest,
+      },
+    });
+
+    return updated;
   }
 }

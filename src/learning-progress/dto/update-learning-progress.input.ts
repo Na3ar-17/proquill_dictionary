@@ -3,9 +3,6 @@ import { InputType, Field, Int } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateLearningProgressInput extends CreateLearningProgressInput {
-  @Field(() => String)
-  id: string;
-
   @Field(() => Int, { nullable: true })
   wordsLearned?: number;
 
