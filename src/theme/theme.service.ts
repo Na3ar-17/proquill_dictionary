@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { UpdateThemeInput } from './dto/update-theme.input';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { LearningProgressService } from 'src/learning-progress/learning-progress.service';
 
 @Injectable()
 export class ThemeService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private learningProgressService: LearningProgressService,
+  ) {}
 
   async create(userId: string) {
     const themes = await this.findAll(userId);
@@ -22,6 +26,13 @@ export class ThemeService {
         },
       },
     });
+
+    if (newTheme.id) {
+      await this.learningProgressService.create({
+        themeId: newTheme.id,
+        userId,
+      });
+    }
 
     return newTheme;
   }
@@ -41,6 +52,9 @@ export class ThemeService {
       where: {
         id,
         userId,
+      },
+      include: {
+        learningProgress: true,
       },
     });
 

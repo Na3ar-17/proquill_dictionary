@@ -5,5 +5,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Module({
   providers: [LearningProgressResolver, LearningProgressService, PrismaService],
+  exports: [LearningProgressService],
 })
 export class LearningProgressModule {}

@@ -2,6 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type LearningProgress {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  userId: String!
+  themeId: String!
+  wordsLearned: Int!
+  accuracyRate: Int
+  lastStudiedAt: DateTime
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Theme {
   id: String!
   createdAt: DateTime!
@@ -9,12 +24,8 @@ type Theme {
   userId: String!
   title: String
   user: User!
+  learningProgress: LearningProgress!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type User {
   id: String!
