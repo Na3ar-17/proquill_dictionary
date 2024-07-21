@@ -61,6 +61,7 @@ type Query {
   findOne: User!
   getAllThemes: [Theme!]!
   getOneTheme(id: String!): Theme!
+  getLearningProgress(themeId: String!): LearningProgress!
   getAllContent(themeId: String!): [Content!]!
   getOneContent(themeId: String!, id: String!): Content!
 }
