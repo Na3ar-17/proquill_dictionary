@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
 import * as dotenv from 'dotenv';
+import { AppModule } from './app.module';
 async function bootstrap() {
   dotenv.config();
 
@@ -12,6 +12,7 @@ async function bootstrap() {
   app.enableCors({
     credentials: true,
     exposedHeaders: 'set-cookie',
+    origin: 'http://localhost:3000',
   });
 
   await app.listen(4200);

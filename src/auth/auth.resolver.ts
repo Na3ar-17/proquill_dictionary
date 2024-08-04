@@ -1,6 +1,3 @@
-import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { AuthService } from './auth.service';
-import { User } from '../user/entities/user.entity';
 import {
   Req,
   Res,
@@ -9,13 +6,13 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { CreateUserInput } from 'src/user/dto/create-user.input';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Request, Response } from 'express';
-import { AuthResponse } from './dto/auth-response.dto';
-import { JwtAuthGuard } from './guards/jwt.guard';
-import { Auth } from './decorators/auth.decorator';
 import { GqlContext } from 'src/types/context.type';
-
+import { CreateUserInput } from 'src/user/dto/create-user.input';
+import { AuthService } from './auth.service';
+import { Auth } from './decorators/auth.decorator';
+import { AuthResponse } from './dto/auth-response.dto';
 @Resolver(() => AuthResponse)
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
@@ -49,8 +46,7 @@ export class AuthResolver {
   @Mutation(() => AuthResponse, { name: 'getNewTokens' })
   @UsePipes(new ValidationPipe())
   async getNewTokens(@Context() context) {
-    const res: Response = context.res;
-    const req: Request = context.req;
+    const { res, req }: GqlContext = context;
 
     const refreshTokenFromCookies =
       await req.cookies[this.authService.REFRESH_TOKEN_NAME];

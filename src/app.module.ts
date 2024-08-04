@@ -1,14 +1,14 @@
-import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { UserModule } from './user/user.module';
-import { PrismaService } from './prisma/prisma.service';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
+import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
-import { ThemeModule } from './theme/theme.module';
+import { AuthModule } from './auth/auth.module';
 import { ContentModule } from './content/content.module';
 import { LearningProgressModule } from './learning-progress/learning-progress.module';
+import { PrismaService } from './prisma/prisma.service';
+import { ThemeModule } from './theme/theme.module';
+import { UserModule } from './user/user.module';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({

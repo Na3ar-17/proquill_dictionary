@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { LearningProgressService } from './learning-progress.service';
 import { LearningProgress } from './entities/learning-progress.entity';
 import { UpdateLearningProgressInput } from './dto/update-learning-progress.input';

@@ -1,14 +1,14 @@
 import {
   BadRequestException,
+  Injectable,
   NotFoundException,
   UnauthorizedException,
-  Injectable,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from 'src/user/user.service';
 import { verify } from 'argon2';
 import { Response } from 'express';
 import { CreateUserInput } from 'src/user/dto/create-user.input';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthService {
