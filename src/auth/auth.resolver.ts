@@ -65,7 +65,7 @@ export class AuthResolver {
     return response;
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Boolean, { name: 'logout' })
   @UsePipes(new ValidationPipe())
   @Auth()
   async logout(@Context() context) {
