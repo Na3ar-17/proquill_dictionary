@@ -1,16 +1,9 @@
 import { Field, InputType, PickType } from '@nestjs/graphql';
-import { Content } from '../entities/content.entity';
 import { IsOptional, IsString, MinLength } from 'class-validator';
+import { Content } from '../entities/content.entity';
 
 @InputType()
-export class CreateContentInput extends PickType(Content, [
-  'themeId',
-  'sentence',
-  'transcription',
-  'translation',
-  'exampleSentences',
-  'imageUrl',
-] as const) {
+export class CreateContentInput {
   @Field(() => String)
   @IsString()
   @MinLength(5, { message: 'The sentence is too short' })

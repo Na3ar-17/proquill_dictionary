@@ -1,10 +1,10 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { ThemeService } from './theme.service';
-import { Theme } from './entities/theme.entity';
-import { UpdateThemeInput } from './dto/update-theme.input';
+import { UsePipes, ValidationPipe } from '@nestjs/common';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { CurrentUser } from 'src/auth/decorators/user.decorator';
-import { UsePipes, ValidationPipe } from '@nestjs/common';
+import { UpdateThemeInput } from './dto/update-theme.input';
+import { Theme } from './entities/theme.entity';
+import { ThemeService } from './theme.service';
 
 @Resolver(() => Theme)
 export class ThemeResolver {

@@ -78,7 +78,8 @@ type Mutation {
   updateLearningProgress(updateLearningProgressInput: UpdateLearningProgressInput!): LearningProgress!
   createContent(createContentInput: CreateContentInput!): Content!
   updateContent(updateContentInput: UpdateContentInput!): Content!
-  deleteOneOrMoreContent(ids: [String!]!, themeId: String!): Int!
+  deleteManyContent(ids: [String!]!, themeId: String!): Int!
+  deleteContent(id: String!, themeId: String!): Content!
 }
 
 input UpdateUserInput {

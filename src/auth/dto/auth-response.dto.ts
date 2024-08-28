@@ -4,7 +4,7 @@ import { User } from 'src/user/entities/user.entity';
 @ObjectType()
 export class AuthResponse {
   @Field(() => User)
-  user: User;
+  user: Omit<User, 'password'>;
 
   @Field(() => String)
   accessToken: string;

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateThemeInput } from './dto/update-theme.input';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { LearningProgressService } from 'src/learning-progress/learning-progress.service';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { UpdateThemeInput } from './dto/update-theme.input';
 
 @Injectable()
 export class ThemeService {

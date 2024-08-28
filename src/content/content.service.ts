@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateContentInput } from './dto/create-content.input';
 import { UpdateContentInput } from './dto/update-content.input';
-import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class ContentService {
@@ -78,7 +78,18 @@ export class ContentService {
     return updated;
   }
 
-  async delete(ids: string[], themeId: string) {
+  async delete(id: string, themeId: string) {
+    const deleted = await this.prisma.content.delete({
+      where: {
+        themeId,
+        id,
+      },
+    });
+
+    return deleted;
+  }
+
+  async deleteMany(ids: string[], themeId: string) {
     const deleted = await this.prisma.content.deleteMany({
       where: {
         themeId,

@@ -1,11 +1,11 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { ContentService } from './content.service';
-import { Content } from './entities/content.entity';
-import { CreateContentInput } from './dto/create-content.input';
-import { UpdateContentInput } from './dto/update-content.input';
 import { UsePipes, ValidationPipe } from '@nestjs/common';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { CurrentUser } from 'src/auth/decorators/user.decorator';
+import { ContentService } from './content.service';
+import { CreateContentInput } from './dto/create-content.input';
+import { UpdateContentInput } from './dto/update-content.input';
+import { Content } from './entities/content.entity';
 
 @Resolver(() => Content)
 export class ContentResolver {
@@ -44,12 +44,18 @@ export class ContentResolver {
     return await this.contentService.update(updateContentInput);
   }
 
-  @Mutation(() => Int, { name: 'deleteOneOrMoreContent' })
+  @Mutation(() => Int, { name: 'deleteManyContent' })
   @Auth()
-  async delete(
+  async deleteMany(
     @Args({ name: 'ids', type: () => [String] }) ids: string[],
     @Args('themeId') themeId: string,
   ) {
-    return await this.contentService.delete(ids, themeId);
+    return await this.contentService.deleteMany(ids, themeId);
+  }
+
+  @Mutation(() => Content, { name: 'deleteContent' })
+  @Auth()
+  async delete(@Args('id') id: string, @Args('themeId') themeId: string) {
+    return await this.contentService.delete(id, themeId);
   }
 }
