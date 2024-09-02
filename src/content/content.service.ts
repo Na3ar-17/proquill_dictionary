@@ -25,6 +25,17 @@ export class ContentService {
     return newContent;
   }
 
+  async getLength(themeId: string, userId: string) {
+    return await this.prisma.content.count({
+      where: {
+        theme: {
+          id: themeId,
+          userId,
+        },
+      },
+    });
+  }
+
   async findAll(themeId: string, userId: string) {
     return await this.prisma.content.findMany({
       where: {

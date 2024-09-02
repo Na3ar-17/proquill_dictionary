@@ -67,6 +67,7 @@ type Query {
   getOneTheme(id: String!): Theme!
   getLearningProgress(themeId: String!): LearningProgress!
   getAllContent(themeId: String!): [Content!]!
+  getContentLength(themeId: String!): Int!
   getOneContent(themeId: String!, id: String!): Content!
 }
 

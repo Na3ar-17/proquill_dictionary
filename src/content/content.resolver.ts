@@ -28,6 +28,14 @@ export class ContentResolver {
   ) {
     return await this.contentService.findAll(themeId, userId);
   }
+  @Query(() => Int, { name: 'getContentLength' })
+  @Auth()
+  async getLength(
+    @Args('themeId') themeId: string,
+    @CurrentUser('id') userId: string,
+  ) {
+    return await this.contentService.getLength(themeId, userId);
+  }
 
   @Query(() => Content, { name: 'getOneContent' })
   @Auth()
