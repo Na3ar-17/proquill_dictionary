@@ -1,18 +1,15 @@
 import {
-  Req,
-  Res,
   UnauthorizedException,
-  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Request, Response } from 'express';
+import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import { GqlContext } from 'src/types/context.type';
 import { CreateUserInput } from 'src/user/dto/create-user.input';
 import { AuthService } from './auth.service';
 import { Auth } from './decorators/auth.decorator';
 import { AuthResponse } from './dto/auth-response.dto';
+import { TokensResponse } from './dto/tokens-response.dto';
 @Resolver(() => AuthResponse)
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
@@ -43,7 +40,7 @@ export class AuthResolver {
     return response;
   }
 
-  @Mutation(() => AuthResponse, { name: 'getNewTokens' })
+  @Mutation(() => TokensResponse, { name: 'getNewTokens' })
   @UsePipes(new ValidationPipe())
   async getNewTokens(@Context() context) {
     const { res, req }: GqlContext = context;

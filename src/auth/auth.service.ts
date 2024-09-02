@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -105,7 +104,6 @@ export class AuthService {
     const tokens = await this.issueTokens(user.id);
 
     return {
-      user,
       ...tokens,
     };
   }

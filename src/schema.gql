@@ -43,6 +43,10 @@ type AuthResponse {
   accessToken: String!
 }
 
+type TokensResponse {
+  accessToken: String!
+}
+
 type Content {
   id: String!
   createdAt: DateTime!
@@ -70,7 +74,7 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   login(loginDto: CreateUserInput!): AuthResponse!
   register(registerDto: CreateUserInput!): AuthResponse!
-  getNewTokens: AuthResponse!
+  getNewTokens: TokensResponse!
   logout: Boolean!
   createTheme: Theme!
   updateTheme(updateThemeInput: UpdateThemeInput!): Theme!
