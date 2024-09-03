@@ -7,10 +7,14 @@ import { CreateContentInput } from './dto/create-content.input';
 import { UpdateContentInput } from './dto/update-content.input';
 import { Content } from './entities/content.entity';
 import { SelectTrueTranslation } from './entities/select-true-translation.enity';
+import { StudyService } from './study.service';
 
 @Resolver(() => Content)
 export class ContentResolver {
-  constructor(private readonly contentService: ContentService) {}
+  constructor(
+    private readonly contentService: ContentService,
+    private readonly studyService: StudyService,
+  ) {}
 
   @Mutation(() => Content, { name: 'createContent' })
   @UsePipes(new ValidationPipe())
@@ -74,9 +78,6 @@ export class ContentResolver {
     @Args('themeId') themeId: string,
     @CurrentUser('id') userId: string,
   ) {
-    return await this.contentService.getForSelectTrueTranslation(
-      themeId,
-      userId,
-    );
+    return await this.studyService.getForSelectTrueTranslation(themeId, userId);
   }
 }

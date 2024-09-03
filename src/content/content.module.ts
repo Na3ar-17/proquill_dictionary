@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ContentService } from './content.service';
-import { ContentResolver } from './content.resolver';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { ContentResolver } from './content.resolver';
+import { ContentService } from './content.service';
+import { StudyService } from './study.service';
 
 @Module({
-  providers: [ContentResolver, ContentService, PrismaService],
+  providers: [ContentResolver, ContentService, PrismaService, StudyService],
 })
 export class ContentModule {}
