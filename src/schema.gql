@@ -61,6 +61,18 @@ type Content {
   imageUrl: String
 }
 
+type SelectTrueTranslation {
+  id: String!
+  itemsLeft: Int!
+  themeId: String!
+  sentence: String!
+  variations: [Variations!]!
+}
+
+type Variations {
+  translation: String!
+}
+
 type Query {
   findOne: User!
   getAllThemes: [Theme!]!
@@ -69,6 +81,7 @@ type Query {
   getAllContent(themeId: String!): [Content!]!
   getContentLength(themeId: String!): Int!
   getOneContent(themeId: String!, id: String!): Content!
+  selectTrueTranslation(themeId: String!): SelectTrueTranslation!
 }
 
 type Mutation {

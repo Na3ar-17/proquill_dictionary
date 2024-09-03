@@ -6,6 +6,7 @@ import { ContentService } from './content.service';
 import { CreateContentInput } from './dto/create-content.input';
 import { UpdateContentInput } from './dto/update-content.input';
 import { Content } from './entities/content.entity';
+import { SelectTrueTranslation } from './entities/select-true-translation.enity';
 
 @Resolver(() => Content)
 export class ContentResolver {
@@ -65,5 +66,17 @@ export class ContentResolver {
   @Auth()
   async delete(@Args('id') id: string, @Args('themeId') themeId: string) {
     return await this.contentService.delete(id, themeId);
+  }
+
+  @Query(() => SelectTrueTranslation, { name: 'selectTrueTranslation' })
+  @Auth()
+  async getForSelectTrueTranslation(
+    @Args('themeId') themeId: string,
+    @CurrentUser('id') userId: string,
+  ) {
+    return await this.contentService.getForSelectTrueTranslation(
+      themeId,
+      userId,
+    );
   }
 }
