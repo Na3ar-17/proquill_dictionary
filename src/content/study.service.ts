@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { ValidateSelectTrueTranslationDto } from './dto/study.dto';
 import {
   SelectTrueTranslation,
   Variations,
@@ -11,9 +12,8 @@ export class StudyService {
   repeatedContentsId = new Set();
 
   async validateSelectTrueTranslation(
-    themeId: string,
     userId: string,
-    id: string,
+    dto: ValidateSelectTrueTranslationDto,
   ) {}
 
   async getForSelectTrueTranslation(themeId: string, userId: string) {

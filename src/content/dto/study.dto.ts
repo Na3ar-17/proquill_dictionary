@@ -7,4 +7,7 @@ export class ValidateSelectTrueTranslationDto {
 
   @Field(() => String)
   currentSentenceId: string;
+
+  @Field(() => String)
+  themeId: string;
 }
