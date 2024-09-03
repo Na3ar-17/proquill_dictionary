@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { ContentService } from './content.service';
 import { ValidateSelectTrueTranslationDto } from './dto/study.dto';
 import {
   SelectTrueTranslation,
@@ -8,13 +9,20 @@ import {
 
 @Injectable()
 export class StudyService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private contentService: ContentService,
+  ) {}
   repeatedContentsId = new Set();
 
-  async validateSelectTrueTranslation(
-    userId: string,
-    dto: ValidateSelectTrueTranslationDto,
-  ) {}
+  async validateSelectTrueTranslation(dto: ValidateSelectTrueTranslationDto) {
+    const content = await this.contentService.findOne(
+      dto.currentSentenceId,
+      dto.themeId,
+    );
+
+    return dto.translation === content.translation;
+  }
 
   async getForSelectTrueTranslation(themeId: string, userId: string) {
     const contents = await this.prisma.content.findMany({
