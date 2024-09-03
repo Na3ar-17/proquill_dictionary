@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class ValidateSelectTrueTranslationDto {
+export class ValidateSelectedTranslation {
   @Field(() => String)
   translation: string;
 
