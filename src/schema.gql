@@ -98,6 +98,7 @@ type Mutation {
   updateContent(updateContentInput: UpdateContentInput!): Content!
   deleteManyContent(ids: [String!]!, themeId: String!): Int!
   deleteContent(id: String!, themeId: String!): Content!
+  validateSelectedTranslation(validateSelectedTranslation: ValidateSelectedTranslation!): Boolean!
 }
 
 input UpdateUserInput {
@@ -143,4 +144,10 @@ input UpdateContentInput {
   translation: String!
   lernedCounts: Int
   hasLearned: Boolean
+}
+
+input ValidateSelectedTranslation {
+  translation: String!
+  currentSentenceId: String!
+  themeId: String!
 }

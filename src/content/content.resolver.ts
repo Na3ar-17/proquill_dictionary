@@ -4,6 +4,7 @@ import { Auth } from 'src/auth/decorators/auth.decorator';
 import { CurrentUser } from 'src/auth/decorators/user.decorator';
 import { ContentService } from './content.service';
 import { CreateContentInput } from './dto/create-content.input';
+import { ValidateSelectedTranslation } from './dto/study.dto';
 import { UpdateContentInput } from './dto/update-content.input';
 import { Content } from './entities/content.entity';
 import { SelectTrueTranslation } from './entities/select-true-translation.enity';
@@ -79,5 +80,16 @@ export class ContentResolver {
     @CurrentUser('id') userId: string,
   ) {
     return await this.studyService.getForSelectTrueTranslation(themeId, userId);
+  }
+
+  @Mutation(() => Boolean, { name: 'validateSelectedTranslation' })
+  @Auth()
+  async validateSelectedTranslation(
+    @Args('validateSelectedTranslation')
+    validateSelectedTranslation: ValidateSelectedTranslation,
+  ) {
+    return await this.studyService.validateSelectedTranslation(
+      validateSelectedTranslation,
+    );
   }
 }
