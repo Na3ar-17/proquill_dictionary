@@ -10,6 +10,12 @@ export class StudyService {
   constructor(private prisma: PrismaService) {}
   repeatedContentsId = new Set();
 
+  async validateSelectTrueTranslation(
+    themeId: string,
+    userId: string,
+    id: string,
+  ) {}
+
   async getForSelectTrueTranslation(themeId: string, userId: string) {
     const contents = await this.prisma.content.findMany({
       where: {
@@ -64,13 +70,13 @@ export class StudyService {
       },
     });
 
-    const uniqueTranslations = new Set<string>();
+    const uniqueTranslations = new Set<Variations>();
     while (uniqueTranslations.size < 2) {
       const randomIndex = this.generateRandomIndex(contents.length);
-      uniqueTranslations.add(contents[randomIndex].translation);
+      uniqueTranslations.add(contents[randomIndex]);
     }
 
-    return Array.from(uniqueTranslations).map((translation) => ({
+    return Array.from(uniqueTranslations).map(({ translation }) => ({
       translation,
     }));
   }
