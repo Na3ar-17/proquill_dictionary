@@ -16,6 +16,7 @@ export class ContentResolver {
     private readonly contentService: ContentService,
     private readonly studyService: StudyService,
   ) {}
+  repeatedContentsId = new Set<string[]>();
 
   @Mutation(() => Content, { name: 'createContent' })
   @UsePipes(new ValidationPipe())
@@ -79,7 +80,11 @@ export class ContentResolver {
     @Args('themeId') themeId: string,
     @CurrentUser('id') userId: string,
   ) {
-    return await this.studyService.getForSelectTrueTranslation(themeId, userId);
+    return await this.studyService.getForSelectTrueTranslation(
+      themeId,
+      userId,
+      this.repeatedContentsId,
+    );
   }
 
   @Mutation(() => Boolean, { name: 'validateSelectedTranslation' })
