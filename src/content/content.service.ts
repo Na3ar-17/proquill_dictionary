@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { type Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateContentInput } from './dto/create-content.input';
 import { UpdateContentInput } from './dto/update-content.input';
@@ -36,13 +37,18 @@ export class ContentService {
     });
   }
 
-  async findAll(themeId: string, userId: string) {
+  async findAll(
+    themeId: string,
+    userId: string,
+    where?: Prisma.ContentWhereInput,
+  ) {
     return await this.prisma.content.findMany({
       where: {
         theme: {
           userId,
           id: themeId,
         },
+        ...where,
       },
     });
   }
