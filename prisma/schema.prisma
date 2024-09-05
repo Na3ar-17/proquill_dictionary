@@ -78,8 +78,6 @@ model Quiz {
   themeId       String        @unique @map("theme_id")
   correctCount  Int           @default(0) @map("correct_count")
   wrongCount    Int           @default(0) @map("wrong_count")
-  variations    String[]      @map("variations")
-  sentence      String        @map("sentence")
   correctAnswer String        @map("correct_answer")
   type          EnumStudyType @default(Quiz)
 
