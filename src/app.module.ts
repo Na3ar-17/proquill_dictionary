@@ -9,6 +9,7 @@ import { LearningProgressModule } from './learning-progress/learning-progress.mo
 import { PrismaService } from './prisma/prisma.service';
 import { ThemeModule } from './theme/theme.module';
 import { UserModule } from './user/user.module';
+import { QuizModule } from './quiz/quiz.module';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -27,6 +28,7 @@ import { UserModule } from './user/user.module';
     ThemeModule,
     ContentModule,
     LearningProgressModule,
+    QuizModule,
   ],
   providers: [PrismaService],
 })
