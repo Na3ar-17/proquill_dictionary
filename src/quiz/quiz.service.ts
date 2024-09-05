@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { EnumStudyType } from '@prisma/client';
 import { ContentService } from 'src/content/content.service';
 import { Content } from 'src/content/entities/content.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateQuizDto } from './dto/create-quiz.dto';
 import { QuizSession, Variations } from './entitys/quiz.entiti';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class QuizService {
     private readonly contentService: ContentService,
   ) {}
 
-  async create(dto: CreateQuizDto, userId: string) {
+  async create(type: EnumStudyType, userId: string, themeId: string) {
     const quiz = await this.prisma.quiz.create({
       data: {
         correctAnswers: 0,
@@ -20,18 +20,16 @@ export class QuizService {
         repeatedSentences: [],
         theme: {
           connect: {
-            id: dto.themeId,
+            id: themeId,
             user: {
               id: userId,
             },
           },
         },
-        type: dto.type,
+        type: type,
         wrongCount: 0,
       },
     });
-
-    return quiz;
   }
 
   async getVariations(themeId: string, userId: string): Promise<QuizSession> {

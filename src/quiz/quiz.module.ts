@@ -6,5 +6,6 @@ import { QuizService } from './quiz.service';
 
 @Module({
   providers: [QuizResolver, QuizService, PrismaService, ContentService],
+  exports: [QuizService],
 })
 export class QuizModule {}

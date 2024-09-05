@@ -61,22 +61,6 @@ type Content {
   imageUrl: String
 }
 
-type Quiz {
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  themeId: String!
-  correctCount: Int!
-  wrongCount: Int!
-  correctAnswers: Int!
-  type: EnumStudyType!
-  repeatedSentences: [String!]!
-}
-
-enum EnumStudyType {
-  Quiz
-  RearrangeSentence
-}
-
 type QuizSession {
   itemsLeft: Int!
   themeId: String!
@@ -93,10 +77,10 @@ type Query {
   getAllThemes: [Theme!]!
   getOneTheme(id: String!): Theme!
   getLearningProgress(themeId: String!): LearningProgress!
+  variations(themeId: String!): QuizSession!
   getAllContent(themeId: String!): [Content!]!
   getContentLength(themeId: String!): Int!
   getOneContent(themeId: String!, id: String!): Content!
-  variations(themeId: String!): QuizSession!
 }
 
 type Mutation {
@@ -113,7 +97,6 @@ type Mutation {
   updateContent(updateContentInput: UpdateContentInput!): Content!
   deleteManyContent(ids: [String!]!, themeId: String!): Int!
   deleteContent(id: String!, themeId: String!): Content!
-  create_quiz(createQuizDto: CreateQuizDto!): Quiz!
 }
 
 input UpdateUserInput {
@@ -159,9 +142,4 @@ input UpdateContentInput {
   translation: String!
   lernedCounts: Int
   hasLearned: Boolean
-}
-
-input CreateQuizDto {
-  themeId: String!
-  type: EnumStudyType!
 }
