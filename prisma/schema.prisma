@@ -71,14 +71,12 @@ model LearningProgress {
 }
 
 model Quiz {
-  id                String        @id @default(uuid())
   createdAt         DateTime      @default(now()) @map("created_at")
   updatedAt         DateTime      @updatedAt @map("updated_at")
-  contentId         String        @unique @map("content_id")
   themeId           String        @unique @map("theme_id")
   correctCount      Int           @default(0) @map("correct_count")
   wrongCount        Int           @default(0) @map("wrong_count")
-  correctAnswer     String        @map("correct_answer")
+  correctAnswers    Int           @default(0) @map("correct_answers")
   type              EnumStudyType @default(Quiz)
   repeatedSentences String[]      @map("repeated_sentences")
 

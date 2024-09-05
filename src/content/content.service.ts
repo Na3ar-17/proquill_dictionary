@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { type Prisma } from '@prisma/client';
+import { DefaultArgs } from '@prisma/client/runtime/library';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateContentInput } from './dto/create-content.input';
 import { UpdateContentInput } from './dto/update-content.input';
@@ -41,6 +42,7 @@ export class ContentService {
     themeId: string,
     userId: string,
     where?: Prisma.ContentWhereInput,
+    select?: Prisma.ContentSelect<DefaultArgs>,
   ) {
     return await this.prisma.content.findMany({
       where: {
@@ -50,6 +52,7 @@ export class ContentService {
         },
         ...where,
       },
+      select,
     });
   }
 

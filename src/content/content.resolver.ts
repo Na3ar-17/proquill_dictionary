@@ -4,19 +4,12 @@ import { Auth } from 'src/auth/decorators/auth.decorator';
 import { CurrentUser } from 'src/auth/decorators/user.decorator';
 import { ContentService } from './content.service';
 import { CreateContentInput } from './dto/create-content.input';
-import { ValidateSelectedTranslation } from './dto/study.dto';
 import { UpdateContentInput } from './dto/update-content.input';
 import { Content } from './entities/content.entity';
-import { SelectTrueTranslation } from './entities/select-true-translation.enity';
-import { StudyService } from './study.service';
 
 @Resolver(() => Content)
 export class ContentResolver {
-  constructor(
-    private readonly contentService: ContentService,
-    private readonly studyService: StudyService,
-  ) {}
-  repeatedContentsId = new Set<string[]>();
+  constructor(private readonly contentService: ContentService) {}
 
   @Mutation(() => Content, { name: 'createContent' })
   @UsePipes(new ValidationPipe())
@@ -72,29 +65,5 @@ export class ContentResolver {
   @Auth()
   async delete(@Args('id') id: string, @Args('themeId') themeId: string) {
     return await this.contentService.delete(id, themeId);
-  }
-
-  @Query(() => SelectTrueTranslation, { name: 'selectTrueTranslation' })
-  @Auth()
-  async getForSelectTrueTranslation(
-    @Args('themeId') themeId: string,
-    @CurrentUser('id') userId: string,
-  ) {
-    return await this.studyService.getForSelectTrueTranslation(
-      themeId,
-      userId,
-      this.repeatedContentsId,
-    );
-  }
-
-  @Mutation(() => Boolean, { name: 'validateSelectedTranslation' })
-  @Auth()
-  async validateSelectedTranslation(
-    @Args('validateSelectedTranslation')
-    validateSelectedTranslation: ValidateSelectedTranslation,
-  ) {
-    return await this.studyService.validateSelectedTranslation(
-      validateSelectedTranslation,
-    );
   }
 }

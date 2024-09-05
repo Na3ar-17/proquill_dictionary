@@ -61,8 +61,23 @@ type Content {
   imageUrl: String
 }
 
-type SelectTrueTranslation {
-  id: String!
+type Quiz {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  themeId: String!
+  correctCount: Int!
+  wrongCount: Int!
+  correctAnswers: Int!
+  type: EnumStudyType!
+  repeatedSentences: [String!]!
+}
+
+enum EnumStudyType {
+  Quiz
+  RearrangeSentence
+}
+
+type QuizSession {
   itemsLeft: Int!
   themeId: String!
   sentence: String!
@@ -81,7 +96,7 @@ type Query {
   getAllContent(themeId: String!): [Content!]!
   getContentLength(themeId: String!): Int!
   getOneContent(themeId: String!, id: String!): Content!
-  selectTrueTranslation(themeId: String!): SelectTrueTranslation!
+  variations(themeId: String!): QuizSession!
 }
 
 type Mutation {
@@ -98,7 +113,7 @@ type Mutation {
   updateContent(updateContentInput: UpdateContentInput!): Content!
   deleteManyContent(ids: [String!]!, themeId: String!): Int!
   deleteContent(id: String!, themeId: String!): Content!
-  validateSelectedTranslation(validateSelectedTranslation: ValidateSelectedTranslation!): Boolean!
+  create_quiz(createQuizDto: CreateQuizDto!): Quiz!
 }
 
 input UpdateUserInput {
@@ -146,8 +161,7 @@ input UpdateContentInput {
   hasLearned: Boolean
 }
 
-input ValidateSelectedTranslation {
-  translation: String!
-  currentSentenceId: String!
+input CreateQuizDto {
   themeId: String!
+  type: EnumStudyType!
 }
