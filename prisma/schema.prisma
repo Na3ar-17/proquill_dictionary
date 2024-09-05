@@ -18,7 +18,6 @@ model User {
   profilePictureUrl String?            @map("profile_picture_url")
   themes            Theme[]
   learningProgress  LearningProgress[]
-  StudySession      StudySession[]
 
   @@map("user")
 }
@@ -33,7 +32,7 @@ model Theme {
   user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   content          Content[]
   learningProgress LearningProgress?
-  StudySession     StudySession[]
+  quiz             Quiz?
 
   @@map("theme")
 }
@@ -43,16 +42,15 @@ model Content {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  themeId               String                  @map("theme_id")
-  sentence              String
-  translation           String
-  transcription         String?
-  lernedCounts          Int                     @default(0) @map("learned_counts")
-  hasLearned            Boolean                 @default(false) @map("has_learned")
-  exampleSentences      String[]                @map("example_sentences")
-  imageUrl              String?                 @map("image_url")
-  theme                 Theme                   @relation(fields: [themeId], references: [id], onDelete: Cascade)
-  SelectTrueTranslation SelectTrueTranslation[]
+  themeId          String   @map("theme_id")
+  sentence         String
+  translation      String
+  transcription    String?
+  lernedCounts     Int      @default(0) @map("learned_counts")
+  hasLearned       Boolean  @default(false) @map("has_learned")
+  exampleSentences String[] @map("example_sentences")
+  imageUrl         String?  @map("image_url")
+  theme            Theme    @relation(fields: [themeId], references: [id], onDelete: Cascade)
 
   @@map("content")
 }
@@ -72,32 +70,25 @@ model LearningProgress {
   @@map("learning_progres")
 }
 
-model StudySession {
-  id                     String                  @id @default(uuid())
-  createdAt              DateTime                @default(now()) @map("created_at")
-  updatedAt              DateTime                @updatedAt @map("updated_at")
-  userId                 String                  @map("user_id")
-  themeId                String                  @map("theme_id")
-  user                   User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  theme                  Theme                   @relation(fields: [themeId], references: [id], onDelete: Cascade)
-  selectTrueTranslations SelectTrueTranslation[]
+model Quiz {
+  id            String        @id @default(uuid())
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+  contentId     String        @unique @map("content_id")
+  themeId       String        @unique @map("theme_id")
+  correctCount  Int           @default(0) @map("correct_count")
+  wrongCount    Int           @default(0) @map("wrong_count")
+  variations    String[]      @map("variations")
+  sentence      String        @map("sentence")
+  correctAnswer String        @map("correct_answer")
+  type          EnumStudyType @default(Quiz)
 
-  @@map("study_session")
+  theme Theme? @relation(fields: [themeId], references: [id])
+
+  @@map("quiz")
 }
 
-model SelectTrueTranslation {
-  id            String       @id @default(uuid())
-  createdAt     DateTime     @default(now()) @map("created_at")
-  updatedAt     DateTime     @updatedAt @map("updated_at")
-  sessionId     String       @map("session_id")
-  contentId     String       @map("content_id")
-  correctCount  Int          @default(0) @map("correct_count")
-  wrongCount    Int          @default(0) @map("wrong_count")
-  variations    String[]     @map("variations")
-  sentence      String       @map("sentence")
-  correctAnswer String       @map("correct_answer")
-  studySession  StudySession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  content       Content      @relation(fields: [contentId], references: [id], onDelete: Cascade)
-
-  @@map("select_true_translation")
+enum EnumStudyType {
+  Quiz
+  RearrangeSentence
 }
