@@ -4,6 +4,7 @@ import { DefaultArgs } from '@prisma/client/runtime/library';
 import { ContentService } from 'src/content/content.service';
 import { Content } from 'src/content/entities/content.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { generateRandomIndex, shuffleArray } from 'src/utils/utils';
 import { QuizSession, Variations } from './entitys/quiz.entiti';
 
 @Injectable()
@@ -79,7 +80,7 @@ export class QuizService {
     if (quiz.repeatedSentences.length === contents.length) {
       return this.emptyResponse(themeId);
     }
-    randomContent = await contents[this.generateRandomIndex(contents.length)];
+    randomContent = await contents[generateRandomIndex(contents.length)];
 
     await this.prisma.quiz.update({
       where: {
@@ -101,7 +102,7 @@ export class QuizService {
       itemsLeft: contents.length - quiz.repeatedSentences.length,
       sentence: randomContent.sentence,
       themeId,
-      variations: this.shuffleArray(variations),
+      variations: shuffleArray(variations),
     };
 
     return response.itemsLeft === 0 ? this.emptyResponse(themeId) : response;
@@ -132,18 +133,6 @@ export class QuizService {
     return quiz;
   }
 
-  private generateRandomIndex(max: number): number {
-    return Math.floor(Math.random() * max);
-  }
-
-  private shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
-
   private async getRandomTranslations(
     exeptId: string,
     themeId: string,
@@ -165,9 +154,7 @@ export class QuizService {
 
     const uniqueTranslations = new Set<Variations>();
     while (uniqueTranslations.size < 2) {
-      uniqueTranslations.add(
-        contents[this.generateRandomIndex(contents.length)],
-      );
+      uniqueTranslations.add(contents[generateRandomIndex(contents.length)]);
     }
 
     return Array.from(uniqueTranslations).map(({ translation }) => ({
