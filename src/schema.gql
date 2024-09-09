@@ -72,12 +72,17 @@ type Variations {
   translation: String!
 }
 
+type Result {
+  correctAnswers: Int!
+}
+
 type Query {
   findOne: User!
   getAllThemes: [Theme!]!
   getOneTheme(id: String!): Theme!
   getLearningProgress(themeId: String!): LearningProgress!
   variations(themeId: String!): QuizSession!
+  result(themeId: String!): Result!
   getAllContent(themeId: String!): [Content!]!
   getContentLength(themeId: String!): Int!
   getOneContent(themeId: String!, id: String!): Content!
@@ -93,6 +98,7 @@ type Mutation {
   updateTheme(updateThemeInput: UpdateThemeInput!): Theme!
   deleteOneOrMoreTheme(ids: [String!]!): Int!
   updateLearningProgress(updateLearningProgressInput: UpdateLearningProgressInput!): LearningProgress!
+  restart(themeId: String!): Boolean!
   createContent(createContentInput: CreateContentInput!): Content!
   updateContent(updateContentInput: UpdateContentInput!): Content!
   deleteManyContent(ids: [String!]!, themeId: String!): Int!

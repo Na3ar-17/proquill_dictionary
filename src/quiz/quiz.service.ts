@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { EnumStudyType } from '@prisma/client';
+import { EnumStudyType, Prisma } from '@prisma/client';
+import { DefaultArgs } from '@prisma/client/runtime/library';
 import { ContentService } from 'src/content/content.service';
 import { Content } from 'src/content/entities/content.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -12,8 +13,29 @@ export class QuizService {
     private readonly contentService: ContentService,
   ) {}
 
+  async findOne(
+    userId: string,
+    themeId: string,
+    select?: Prisma.QuizSelect<DefaultArgs>,
+  ) {
+    const quiz = await this.prisma.quiz.findUnique({
+      where: {
+        themeId,
+        theme: {
+          userId,
+        },
+      },
+      select,
+    });
+
+    if (!quiz) {
+      throw new Error('quiz not found');
+    }
+    return quiz;
+  }
+
   async create(type: EnumStudyType, userId: string, themeId: string) {
-    const quiz = await this.prisma.quiz.create({
+    await this.prisma.quiz.create({
       data: {
         correctAnswers: 0,
         correctCount: 0,
@@ -83,6 +105,31 @@ export class QuizService {
     };
 
     return response.itemsLeft === 0 ? this.emptyResponse(themeId) : response;
+  }
+
+  async restart(themeId: string, userId: string) {
+    return !!(await this.prisma.quiz.update({
+      where: {
+        themeId,
+        theme: {
+          userId,
+        },
+      },
+      data: {
+        repeatedSentences: [],
+        correctAnswers: 0,
+        correctCount: 0,
+        wrongCount: 0,
+      },
+    }));
+  }
+
+  async getResult(themeId: string, userId: string) {
+    const quiz = await this.findOne(userId, themeId, {
+      correctAnswers: true,
+    });
+
+    return quiz;
   }
 
   private generateRandomIndex(max: number): number {
