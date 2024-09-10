@@ -96,6 +96,7 @@ export class QuizService {
 
     const response: QuizSession = {
       itemsLeft: contents.length - quiz.repeatedSentences.length,
+      totalItems: contents.length,
       contentId: randomContent.id,
       sentence: randomContent.sentence,
       themeId,
@@ -218,6 +219,7 @@ export class QuizService {
       themeId,
       variations: [],
       contentId: '',
+      totalItems: 0,
     };
   }
 }

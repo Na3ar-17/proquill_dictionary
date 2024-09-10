@@ -63,6 +63,7 @@ type Content {
 
 type QuizSession {
   itemsLeft: Int!
+  totalItems: Int!
   themeId: String!
   sentence: String!
   contentId: String!

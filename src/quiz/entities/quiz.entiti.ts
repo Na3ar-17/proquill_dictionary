@@ -43,6 +43,9 @@ export class QuizSession {
   @Field(() => Int)
   itemsLeft: number;
 
+  @Field(() => Int)
+  totalItems: number;
+
   @Field(() => String)
   themeId: string;
 
