@@ -80,7 +80,6 @@ type Result {
 type ValidationResult {
   isCorrect: Boolean!
   correctTranslation: String!
-  selectedTranslation: String!
 }
 
 type Query {

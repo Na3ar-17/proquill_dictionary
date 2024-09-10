@@ -87,15 +87,6 @@ export class QuizService {
     }
     randomContent = await contents[generateRandomIndex(contents.length)];
 
-    await this.prisma.quiz.update({
-      where: {
-        themeId,
-      },
-      data: {
-        repeatedSentences: [...quiz.repeatedSentences, randomContent.id],
-      },
-    });
-
     const variations = await this.getRandomTranslations(
       randomContent.id,
       themeId,
@@ -152,7 +143,6 @@ export class QuizService {
     userId: string,
   ): Promise<ValidationResult> {
     const quiz = await this.findOne(userId, dto.themeId);
-    let response: ValidationResult;
     const currentContent = await this.contentService.findOne(
       dto.contentId,
       dto.themeId,
@@ -161,7 +151,9 @@ export class QuizService {
       },
     );
 
-    if (dto.translation === currentContent.translation) {
+    const isCorrect = dto.translation === currentContent.translation;
+
+    if (isCorrect) {
       await this.update(dto.themeId, userId, {
         correctCount: quiz.correctCount + 1,
       });
@@ -171,10 +163,20 @@ export class QuizService {
       });
     }
 
-    response = {
+    await this.update(dto.themeId, userId, {
+      repeatedSentences: [...quiz.repeatedSentences, dto.contentId],
+    });
+
+    const totalAnswers = quiz.correctCount + quiz.wrongCount + 1;
+    const correctPercentage =
+      ((quiz.correctCount + (isCorrect ? 1 : 0)) / totalAnswers) * 100;
+    await this.update(dto.themeId, userId, {
+      correctAnswers: correctPercentage,
+    });
+
+    const response: ValidationResult = {
       isCorrect: dto.translation === currentContent.translation,
       correctTranslation: currentContent.translation,
-      selectedTranslation: dto.translation,
     };
 
     return response;

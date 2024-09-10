@@ -72,7 +72,4 @@ export class ValidationResult {
 
   @Field(() => String)
   correctTranslation: string;
-
-  @Field(() => String)
-  selectedTranslation: string;
 }
