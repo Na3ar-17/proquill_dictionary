@@ -5,7 +5,12 @@ import { ContentService } from 'src/content/content.service';
 import { Content } from 'src/content/entities/content.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { generateRandomIndex, shuffleArray } from 'src/utils/utils';
-import { QuizSession, Variations } from './entitys/quiz.entiti';
+import { ValidateQuizDto } from './dto/validate-quiz.dto';
+import {
+  QuizSession,
+  ValidationResult,
+  Variations,
+} from './entities/quiz.entiti';
 
 @Injectable()
 export class QuizService {
@@ -100,6 +105,7 @@ export class QuizService {
 
     const response: QuizSession = {
       itemsLeft: contents.length - quiz.repeatedSentences.length,
+      contentId: randomContent.id,
       sentence: randomContent.sentence,
       themeId,
       variations: shuffleArray(variations),
@@ -109,19 +115,11 @@ export class QuizService {
   }
 
   async restart(themeId: string, userId: string) {
-    return !!(await this.prisma.quiz.update({
-      where: {
-        themeId,
-        theme: {
-          userId,
-        },
-      },
-      data: {
-        repeatedSentences: [],
-        correctAnswers: 0,
-        correctCount: 0,
-        wrongCount: 0,
-      },
+    return !!(await this.update(themeId, userId, {
+      repeatedSentences: [],
+      correctAnswers: 0,
+      correctCount: 0,
+      wrongCount: 0,
     }));
   }
 
@@ -131,6 +129,55 @@ export class QuizService {
     });
 
     return quiz;
+  }
+
+  async update(themeId: string, userId: string, data: Prisma.QuizUpdateInput) {
+    const quiz = await this.findOne(userId, themeId);
+
+    return await this.prisma.quiz.update({
+      where: {
+        themeId: quiz.themeId,
+        theme: {
+          user: {
+            id: userId,
+          },
+        },
+      },
+      data,
+    });
+  }
+
+  async validate(
+    dto: ValidateQuizDto,
+    userId: string,
+  ): Promise<ValidationResult> {
+    const quiz = await this.findOne(userId, dto.themeId);
+    let response: ValidationResult;
+    const currentContent = await this.contentService.findOne(
+      dto.contentId,
+      dto.themeId,
+      {
+        translation: true,
+      },
+    );
+
+    if (dto.translation === currentContent.translation) {
+      await this.update(dto.themeId, userId, {
+        correctCount: quiz.correctCount + 1,
+      });
+    } else {
+      await this.update(dto.themeId, userId, {
+        wrongCount: quiz.wrongCount + 1,
+      });
+    }
+
+    response = {
+      isCorrect: dto.translation === currentContent.translation,
+      correctTranslation: currentContent.translation,
+      selectedTranslation: dto.translation,
+    };
+
+    return response;
   }
 
   private async getRandomTranslations(
@@ -168,6 +215,7 @@ export class QuizService {
       sentence: '',
       themeId,
       variations: [],
+      contentId: '',
     };
   }
 }

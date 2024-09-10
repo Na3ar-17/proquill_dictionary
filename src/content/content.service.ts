@@ -56,12 +56,17 @@ export class ContentService {
     });
   }
 
-  async findOne(id: string, themeId: string) {
+  async findOne(
+    id: string,
+    themeId: string,
+    select?: Prisma.ContentSelect<DefaultArgs>,
+  ) {
     const content = await this.prisma.content.findUnique({
       where: {
         id,
         themeId,
       },
+      select,
     });
 
     if (!content) throw new Error('Content not found');

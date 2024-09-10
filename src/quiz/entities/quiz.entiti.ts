@@ -49,6 +49,9 @@ export class QuizSession {
   @Field(() => String)
   sentence: string;
 
+  @Field(() => String)
+  contentId: string;
+
   @Field(() => [Variations])
   variations: Variations[];
 }
@@ -61,3 +64,15 @@ export class Variations {
 
 @ObjectType()
 export class Result extends PickType(Quiz, ['correctAnswers']) {}
+
+@ObjectType()
+export class ValidationResult {
+  @Field(() => Boolean)
+  isCorrect: boolean;
+
+  @Field(() => String)
+  correctTranslation: string;
+
+  @Field(() => String)
+  selectedTranslation: string;
+}

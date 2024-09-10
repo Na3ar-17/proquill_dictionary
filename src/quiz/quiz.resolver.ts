@@ -1,7 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { CurrentUser } from 'src/auth/decorators/user.decorator';
-import { QuizSession, Result } from './entitys/quiz.entiti';
+import { ValidateQuizDto } from './dto/validate-quiz.dto';
+import { QuizSession, Result, ValidationResult } from './entities/quiz.entiti';
 import { QuizService } from './quiz.service';
 
 @Resolver()
@@ -25,6 +26,7 @@ export class QuizResolver {
   ) {
     return await this.quizService.getResult(themeId, userId);
   }
+
   @Mutation(() => Boolean, { name: 'restart' })
   @Auth()
   async restart(
@@ -32,5 +34,14 @@ export class QuizResolver {
     @CurrentUser('id') userId: string,
   ) {
     return await this.quizService.restart(themeId, userId);
+  }
+
+  @Mutation(() => ValidationResult, { name: 'validate' })
+  @Auth()
+  async validate(
+    @Args('validateQuizDto') validateQuizDto: ValidateQuizDto,
+    @CurrentUser('id') userId: string,
+  ) {
+    return await this.quizService.validate(validateQuizDto, userId);
   }
 }

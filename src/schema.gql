@@ -65,6 +65,7 @@ type QuizSession {
   itemsLeft: Int!
   themeId: String!
   sentence: String!
+  contentId: String!
   variations: [Variations!]!
 }
 
@@ -74,6 +75,12 @@ type Variations {
 
 type Result {
   correctAnswers: Int!
+}
+
+type ValidationResult {
+  isCorrect: Boolean!
+  correctTranslation: String!
+  selectedTranslation: String!
 }
 
 type Query {
@@ -99,6 +106,7 @@ type Mutation {
   deleteOneOrMoreTheme(ids: [String!]!): Int!
   updateLearningProgress(updateLearningProgressInput: UpdateLearningProgressInput!): LearningProgress!
   restart(themeId: String!): Boolean!
+  validate(validateQuizDto: ValidateQuizDto!): ValidationResult!
   createContent(createContentInput: CreateContentInput!): Content!
   updateContent(updateContentInput: UpdateContentInput!): Content!
   deleteManyContent(ids: [String!]!, themeId: String!): Int!
@@ -127,6 +135,12 @@ input UpdateLearningProgressInput {
   wordsLearned: Int
   accuracyRate: Int
   lastStudiedAt: DateTime
+}
+
+input ValidateQuizDto {
+  themeId: String!
+  translation: String!
+  contentId: String!
 }
 
 input CreateContentInput {
