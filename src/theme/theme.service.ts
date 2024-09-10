@@ -45,6 +45,9 @@ export class ThemeService {
       where: {
         userId,
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
 
     return themes;
@@ -89,7 +92,7 @@ export class ThemeService {
       where: {
         userId,
         id: {
-          in: ids.join(' ').split(' '),
+          in: ids,
         },
       },
     });

@@ -80,7 +80,7 @@ model Quiz {
   type              EnumStudyType @default(Quiz)
   repeatedSentences String[]      @map("repeated_sentences")
 
-  theme Theme? @relation(fields: [themeId], references: [id])
+  theme Theme? @relation(fields: [themeId], references: [id], onDelete: Cascade)
 
   @@map("quiz")
 }

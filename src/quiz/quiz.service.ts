@@ -72,6 +72,9 @@ export class QuizService {
       userId,
       {
         hasLearned: false,
+        id: {
+          notIn: quiz.repeatedSentences,
+        },
       },
       {
         id: true,
@@ -79,11 +82,19 @@ export class QuizService {
         translation: true,
       },
     );
+    const contentsLength = await this.prisma.content.count({
+      where: {
+        themeId,
+        theme: {
+          userId,
+        },
+      },
+    });
 
     let randomContent: Content;
 
-    if (quiz.repeatedSentences.length === contents.length) {
-      return this.emptyResponse(themeId);
+    if (quiz.repeatedSentences.length === contentsLength) {
+      return this.emptyResponse(themeId, contentsLength);
     }
     randomContent = await contents[generateRandomIndex(contents.length)];
 
@@ -95,15 +106,17 @@ export class QuizService {
     variations.push({ translation: randomContent.translation });
 
     const response: QuizSession = {
-      itemsLeft: contents.length - quiz.repeatedSentences.length,
-      totalItems: contents.length,
+      itemsLeft: contentsLength - quiz.repeatedSentences.length,
+      totalItems: contentsLength,
       contentId: randomContent.id,
       sentence: randomContent.sentence,
       themeId,
       variations: shuffleArray(variations),
     };
 
-    return response.itemsLeft === 0 ? this.emptyResponse(themeId) : response;
+    return response.itemsLeft === 0
+      ? this.emptyResponse(themeId, contentsLength)
+      : response;
   }
 
   async restart(themeId: string, userId: string) {
@@ -212,14 +225,14 @@ export class QuizService {
     }));
   }
 
-  private emptyResponse(themeId: string): QuizSession {
+  private emptyResponse(themeId: string, totalItems: number): QuizSession {
     return {
       itemsLeft: 0,
       sentence: '',
       themeId,
       variations: [],
       contentId: '',
-      totalItems: 0,
+      totalItems,
     };
   }
 }
