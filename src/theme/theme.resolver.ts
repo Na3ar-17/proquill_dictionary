@@ -39,7 +39,7 @@ export class ThemeResolver {
     return await this.themeService.update(updateThemeDto, userId);
   }
 
-  @Mutation(() => Int, { name: 'delete_one_or_more' })
+  @Mutation(() => Int, { name: 'delete_one_or_more_theme' })
   @Auth()
   async delete(
     @Args({ name: 'ids', type: () => [String] }) ids: string[],

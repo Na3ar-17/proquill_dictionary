@@ -15,7 +15,7 @@ export class UserResolver {
     return this.userService.getById(id);
   }
 
-  @Mutation(() => User)
+  @Mutation(() => User, { name: 'update_user' })
   @Auth()
   updateUser(
     @Args('updateUserDto') updateUserDto: UpdateUserDto,

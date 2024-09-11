@@ -45,6 +45,9 @@ export class ThemeService {
       where: {
         userId,
       },
+      include: {
+        learningProgress: true,
+      },
       orderBy: {
         createdAt: 'desc',
       },

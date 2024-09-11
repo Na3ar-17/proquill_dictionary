@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { hash } from 'argon2';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -31,7 +31,7 @@ export class UserService {
     });
   }
 
-  async create(dto: CreateUserInput) {
+  async create(dto: CreateUserDto) {
     const user = {
       email: dto.email,
       fullName: dto.fullName,
@@ -45,7 +45,7 @@ export class UserService {
     return newUser;
   }
 
-  async update(id: string, dto: UpdateUserInput) {
+  async update(id: string, dto: UpdateUserDto) {
     const user = await this.getById(id);
 
     const updated = await this.prisma.user.update({

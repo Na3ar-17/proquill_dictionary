@@ -1,4 +1,4 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { LearningProgress } from 'src/learning-progress/entities/learning-progress.entity';
 import { User } from 'src/user/entities/user.entity';
 
@@ -19,8 +19,8 @@ export class Theme {
   @Field(() => String, { nullable: true })
   title?: string;
 
-  @Field(() => User)
-  user: User;
+  @Field(() => User, { nullable: true })
+  user?: User;
 
   @Field(() => LearningProgress)
   learningProgress: LearningProgress;

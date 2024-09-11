@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { CurrentUser } from 'src/auth/decorators/user.decorator';
-import { UpdateLearningProgressInput } from './dto/update-learning-progress.dto';
+import { UpdateLearningProgressDto } from './dto/update-learning-progress.dto';
 import { LearningProgress } from './entities/learning-progress.entity';
 import { LearningProgressService } from './learning-progress.service';
 
@@ -23,12 +23,12 @@ export class LearningProgressResolver {
   @Mutation(() => LearningProgress, { name: 'updateLearningProgress' })
   @Auth()
   async update(
-    @Args('updateLearningProgressInput')
-    updateLearningProgressInput: UpdateLearningProgressInput,
+    @Args('updateLearningProgressDto')
+    updateLearningProgressDto: UpdateLearningProgressDto,
     @CurrentUser('id') userId: string,
   ) {
     return await this.learningProgressService.update(
-      updateLearningProgressInput,
+      updateLearningProgressDto,
       userId,
     );
   }

@@ -5,8 +5,8 @@
 type LearningProgress {
   createdAt: DateTime!
   updatedAt: DateTime!
-  userId: String!
-  themeId: String!
+  userId: String
+  themeId: String
   wordsLearned: Int!
   accuracyRate: Int
   lastStudiedAt: DateTime
@@ -23,7 +23,7 @@ type Theme {
   updatedAt: DateTime!
   userId: String!
   title: String
-  user: User!
+  user: User
   learningProgress: LearningProgress!
 }
 
@@ -85,52 +85,52 @@ type ValidationResult {
 
 type Query {
   findOne: User!
-  getAllThemes: [Theme!]!
-  getOneTheme(id: String!): Theme!
+  themes: [Theme!]!
+  theme(id: String!): Theme!
   getLearningProgress(themeId: String!): LearningProgress!
   variations(themeId: String!): QuizSession!
   result(themeId: String!): Result!
-  getAllContent(themeId: String!): [Content!]!
-  getContentLength(themeId: String!): Int!
-  getOneContent(themeId: String!, id: String!): Content!
+  contents(themeId: String!): [Content!]!
+  content_length(themeId: String!): Int!
+  content(themeId: String!, id: String!): Content!
 }
 
 type Mutation {
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  login(loginDto: CreateUserInput!): AuthResponse!
-  register(registerDto: CreateUserInput!): AuthResponse!
-  getNewTokens: TokensResponse!
+  update_user(updateUserDto: UpdateUserDto!): User!
+  login(loginDto: CreateUserDto!): AuthResponse!
+  register(registerDto: CreateUserDto!): AuthResponse!
+  tokens: TokensResponse!
   logout: Boolean!
-  createTheme: Theme!
-  updateTheme(updateThemeInput: UpdateThemeInput!): Theme!
-  deleteOneOrMoreTheme(ids: [String!]!): Int!
-  updateLearningProgress(updateLearningProgressInput: UpdateLearningProgressInput!): LearningProgress!
+  new_theme: Theme!
+  update_theme(updateThemeDto: UpdateThemeDto!): Theme!
+  delete_one_or_more_theme(ids: [String!]!): Int!
+  updateLearningProgress(updateLearningProgressDto: UpdateLearningProgressDto!): LearningProgress!
   restart(themeId: String!): Boolean!
   validate(validateQuizDto: ValidateQuizDto!): ValidationResult!
-  createContent(createContentInput: CreateContentInput!): Content!
-  updateContent(updateContentInput: UpdateContentInput!): Content!
-  deleteManyContent(ids: [String!]!, themeId: String!): Int!
-  deleteContent(id: String!, themeId: String!): Content!
+  new_content(createContentDto: CreateContentDto!): Content!
+  update_content(updateContentDto: UpdateContentDto!): Content!
+  delete_many_content(ids: [String!]!, themeId: String!): Int!
+  delete_content(id: String!, themeId: String!): Content!
 }
 
-input UpdateUserInput {
+input UpdateUserDto {
   email: String
   password: String
   fullName: String
 }
 
-input CreateUserInput {
+input CreateUserDto {
   email: String!
   password: String!
   fullName: String
 }
 
-input UpdateThemeInput {
+input UpdateThemeDto {
   id: String!
   title: String
 }
 
-input UpdateLearningProgressInput {
+input UpdateLearningProgressDto {
   themeId: String!
   wordsLearned: Int
   accuracyRate: Int
@@ -143,7 +143,7 @@ input ValidateQuizDto {
   contentId: String!
 }
 
-input CreateContentInput {
+input CreateContentDto {
   sentence: String!
   translation: String!
   exampleSentences: [String!]
@@ -152,7 +152,7 @@ input CreateContentInput {
   transcription: String
 }
 
-input UpdateContentInput {
+input UpdateContentDto {
   id: String!
   exampleSentences: [String!]
   imageUrl: String

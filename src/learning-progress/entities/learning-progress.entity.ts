@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class LearningProgress {
@@ -8,11 +8,11 @@ export class LearningProgress {
   @Field(() => Date)
   updatedAt: Date;
 
-  @Field(() => String)
-  userId: string;
+  @Field(() => String, { nullable: true })
+  userId?: string;
 
-  @Field(() => String)
-  themeId: string;
+  @Field(() => String, { nullable: true })
+  themeId?: string;
 
   @Field(() => Int)
   wordsLearned: number;
