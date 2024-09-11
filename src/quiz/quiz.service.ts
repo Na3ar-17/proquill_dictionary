@@ -82,6 +82,7 @@ export class QuizService {
         translation: true,
       },
     );
+
     const contentsLength = await this.prisma.content.count({
       where: {
         themeId,
@@ -91,11 +92,16 @@ export class QuizService {
       },
     });
 
+    if (contents.length === 0) {
+      return this.emptyResponse(themeId, contentsLength);
+    }
+
     let randomContent: Content;
 
     if (quiz.repeatedSentences.length === contentsLength) {
       return this.emptyResponse(themeId, contentsLength);
     }
+
     randomContent = await contents[generateRandomIndex(contents.length)];
 
     const variations = await this.getRandomTranslations(
