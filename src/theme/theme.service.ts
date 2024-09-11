@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { LearningProgressService } from 'src/learning-progress/learning-progress.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { QuizService } from 'src/quiz/quiz.service';
-import { UpdateThemeInput } from './dto/update-theme.input';
+import { UpdateThemeDto } from './dto/update-theme.dto';
 
 @Injectable()
 export class ThemeService {
@@ -71,16 +71,16 @@ export class ThemeService {
     return theme;
   }
 
-  async update(updateThemeInput: UpdateThemeInput, userId: string) {
-    const theme = await this.findOne(updateThemeInput.id, userId);
+  async update(updateThemeDto: UpdateThemeDto, userId: string) {
+    const theme = await this.findOne(updateThemeDto.id, userId);
 
     const updated = await this.prisma.theme.update({
       where: {
-        id: updateThemeInput.id,
+        id: updateThemeDto.id,
         userId: userId,
       },
       data: {
-        title: updateThemeInput.title || theme.title,
+        title: updateThemeDto.title || theme.title,
       },
     });
 

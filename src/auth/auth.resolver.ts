@@ -5,11 +5,10 @@ import {
 } from '@nestjs/common';
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import { GqlContext } from 'src/types/context.type';
-import { CreateUserInput } from 'src/user/dto/create-user.input';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { Auth } from './decorators/auth.decorator';
-import { AuthResponse } from './dto/auth-response.dto';
-import { TokensResponse } from './dto/tokens-response.dto';
+import { AuthResponse, TokensResponse } from './entities/auth.entity';
 @Resolver(() => AuthResponse)
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
@@ -17,7 +16,7 @@ export class AuthResolver {
   @Mutation(() => AuthResponse)
   @UsePipes(new ValidationPipe())
   async login(
-    @Args('loginDto') dto: CreateUserInput,
+    @Args('loginDto') dto: CreateUserDto,
     @Context() context: GqlContext,
   ) {
     const res = context.res;
@@ -30,7 +29,7 @@ export class AuthResolver {
   @Mutation(() => AuthResponse)
   @UsePipes(new ValidationPipe())
   async register(
-    @Args('registerDto') dto: CreateUserInput,
+    @Args('registerDto') dto: CreateUserDto,
     @Context() context: GqlContext,
   ) {
     const res = context.res;
@@ -40,7 +39,7 @@ export class AuthResolver {
     return response;
   }
 
-  @Mutation(() => TokensResponse, { name: 'getNewTokens' })
+  @Mutation(() => TokensResponse, { name: 'tokens' })
   @UsePipes(new ValidationPipe())
   async getNewTokens(@Context() context) {
     const { res, req }: GqlContext = context;

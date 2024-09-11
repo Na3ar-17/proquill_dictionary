@@ -9,3 +9,9 @@ export class AuthResponse {
   @Field(() => String)
   accessToken: string;
 }
+
+@ObjectType()
+export class TokensResponse {
+  @Field(() => String)
+  accessToken: string;
+}

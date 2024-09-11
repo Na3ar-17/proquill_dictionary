@@ -6,7 +6,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { verify } from 'argon2';
 import { Response } from 'express';
-import { CreateUserInput } from 'src/user/dto/create-user.input';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class AuthService {
   EXPIRE_DAY_REFRESH_TOKEN = 1;
   REFRESH_TOKEN_NAME = 'refreshToken';
 
-  async login(dto: CreateUserInput) {
+  async login(dto: CreateUserDto) {
     const { password, ...user } = await this.validateUser(dto);
 
     const tokens = this.issueTokens(user.id);
@@ -30,7 +30,7 @@ export class AuthService {
     };
   }
 
-  async register(dto: CreateUserInput) {
+  async register(dto: CreateUserDto) {
     const oldUser = await this.userService.getByEmail(dto.email);
 
     if (oldUser) throw new Error('User already exists');
@@ -59,7 +59,7 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  private async validateUser(dto: CreateUserInput) {
+  private async validateUser(dto: CreateUserDto) {
     const user = await this.userService.getByEmail(dto.email);
 
     if (!user) throw new NotFoundException('User not found');

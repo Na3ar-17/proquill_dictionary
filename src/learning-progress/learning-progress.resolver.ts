@@ -1,9 +1,9 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { LearningProgressService } from './learning-progress.service';
-import { LearningProgress } from './entities/learning-progress.entity';
-import { UpdateLearningProgressInput } from './dto/update-learning-progress.input';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { CurrentUser } from 'src/auth/decorators/user.decorator';
+import { UpdateLearningProgressInput } from './dto/update-learning-progress.dto';
+import { LearningProgress } from './entities/learning-progress.entity';
+import { LearningProgressService } from './learning-progress.service';
 
 @Resolver(() => LearningProgress)
 export class LearningProgressResolver {

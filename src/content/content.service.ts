@@ -2,23 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { type Prisma } from '@prisma/client';
 import { DefaultArgs } from '@prisma/client/runtime/library';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateContentInput } from './dto/create-content.input';
-import { UpdateContentInput } from './dto/update-content.input';
+import { CreateContentDto } from './dto/create-content.dto';
+import { UpdateContentDto } from './dto/update-content.dto';
 
 @Injectable()
 export class ContentService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createContentInput: CreateContentInput) {
+  async create(createContentDto: CreateContentDto) {
     const newContent = await this.prisma.content.create({
       data: {
-        sentence: createContentInput.sentence,
-        translation: createContentInput.translation,
-        exampleSentences: createContentInput.exampleSentences || [],
-        transcription: createContentInput.transcription || '',
+        sentence: createContentDto.sentence,
+        translation: createContentDto.translation,
+        exampleSentences: createContentDto.exampleSentences || [],
+        transcription: createContentDto.transcription || '',
         theme: {
           connect: {
-            id: createContentInput.themeId,
+            id: createContentDto.themeId,
           },
         },
       },
@@ -77,29 +77,28 @@ export class ContentService {
     return content;
   }
 
-  async update(updateContentInput: UpdateContentInput) {
+  async update(updateContentDto: UpdateContentDto) {
     const content = await this.findOne(
-      updateContentInput.id,
-      updateContentInput.themeId,
+      updateContentDto.id,
+      updateContentDto.themeId,
     );
 
     const updated = await this.prisma.content.update({
       where: {
-        id: updateContentInput.id,
+        id: updateContentDto.id,
         theme: {
           id: content.themeId,
         },
       },
       data: {
         exampleSentences:
-          updateContentInput.exampleSentences || content.exampleSentences,
-        sentence: updateContentInput.sentence || content.sentence,
-        transcription:
-          updateContentInput.transcription || content.transcription,
-        translation: updateContentInput.translation || content.translation,
-        imageUrl: updateContentInput.imageUrl || content.imageUrl,
-        hasLearned: updateContentInput.hasLearned || content.hasLearned,
-        lernedCounts: updateContentInput.lernedCounts || content.lernedCounts,
+          updateContentDto.exampleSentences || content.exampleSentences,
+        sentence: updateContentDto.sentence || content.sentence,
+        transcription: updateContentDto.transcription || content.transcription,
+        translation: updateContentDto.translation || content.translation,
+        imageUrl: updateContentDto.imageUrl || content.imageUrl,
+        hasLearned: updateContentDto.hasLearned || content.hasLearned,
+        lernedCounts: updateContentDto.lernedCounts || content.lernedCounts,
       },
     });
 

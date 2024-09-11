@@ -1,9 +1,9 @@
+import { Field, InputType, Int, OmitType, PartialType } from '@nestjs/graphql';
 import { IsNumber, IsOptional, MinLength } from 'class-validator';
 import { Content } from '../entities/content.entity';
-import { InputType, PartialType, OmitType, Field, Int } from '@nestjs/graphql';
 
 @InputType()
-export class UpdateContentInput extends PartialType(
+export class UpdateContentDto extends PartialType(
   OmitType(Content, ['createdAt', 'updatedAt'] as const),
 ) {
   @Field(() => String)

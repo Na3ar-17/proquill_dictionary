@@ -1,23 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { CreateLearningProgressInput } from './dto/create-learning-progress.input';
-import { UpdateLearningProgressInput } from './dto/update-learning-progress.input';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateLearningProgressDto } from './dto/create-learning-progress.dto';
+import { UpdateLearningProgressDto } from './dto/update-learning-progress.dto';
 
 @Injectable()
 export class LearningProgressService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createLearningProgressInput: CreateLearningProgressInput) {
+  async create(createLearningProgressDto: CreateLearningProgressDto) {
     const newLearningProgress = await this.prisma.learningProgress.create({
       data: {
         user: {
           connect: {
-            id: createLearningProgressInput.userId,
+            id: createLearningProgressDto.userId,
           },
         },
         theme: {
           connect: {
-            id: createLearningProgressInput.themeId,
+            id: createLearningProgressDto.themeId,
           },
         },
       },
@@ -42,13 +42,13 @@ export class LearningProgressService {
   }
 
   async update(
-    updateLearningProgressInput: UpdateLearningProgressInput,
+    updateLearningProgressDto: UpdateLearningProgressDto,
     userId: string,
   ) {
-    const { themeId, ...rest } = updateLearningProgressInput;
+    const { themeId, ...rest } = updateLearningProgressDto;
 
     const learningProgress = await this.findOne(
-      updateLearningProgressInput.themeId,
+      updateLearningProgressDto.themeId,
       userId,
     );
 

@@ -1,8 +1,8 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { IsOptional, MinLength } from 'class-validator';
 
 @InputType()
-export class UpdateThemeInput {
+export class UpdateThemeDto {
   @Field(() => String)
   id: string;
 
