@@ -16,7 +16,7 @@ export class ThemeService {
     const themes = await this.findAll(userId);
 
     const themeTitle =
-      (await themes.length) > 0 ? `Untitled-${themes.length}` : 'Untitled';
+      (await themes.length) > 0 ? `Untitled-${themes.length + 1}` : 'Untitled';
 
     const newTheme = await this.prisma.theme.create({
       data: {
