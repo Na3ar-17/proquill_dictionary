@@ -128,4 +128,12 @@ export class ContentService {
 
     return deleted.count;
   }
+
+  async createMany(dto: CreateContentDto[]) {
+    const res = await this.prisma.content.createMany({
+      data: dto,
+    });
+
+    return res.count;
+  }
 }

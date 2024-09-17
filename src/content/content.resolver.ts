@@ -19,6 +19,16 @@ export class ContentResolver {
     return await this.contentService.create(createContentDto);
   }
 
+  @Mutation(() => Int, { name: 'new_contents' })
+  @UsePipes(new ValidationPipe())
+  @Auth()
+  async createMany(
+    @Args({ name: 'createManyContentDto', type: () => [CreateContentDto] })
+    createContentDto: CreateContentDto[],
+  ) {
+    return await this.contentService.createMany(createContentDto);
+  }
+
   @Query(() => [Content], { name: 'contents' })
   @Auth()
   async findAll(
