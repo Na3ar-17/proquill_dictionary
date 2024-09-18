@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, PickType } from '@nestjs/graphql';
 import { IsOptional, IsString, MinLength } from 'class-validator';
 
 @InputType()
@@ -29,4 +29,19 @@ export class CreateContentDto {
   @IsString()
   @IsOptional()
   transcription?: string;
+}
+
+@InputType()
+class CreateContentManyDataInput extends PickType(CreateContentDto, [
+  'translation',
+  'sentence',
+  'transcription',
+]) {}
+
+@InputType()
+export class CreateManyContentDto extends PickType(CreateContentDto, [
+  'themeId',
+]) {
+  @Field(() => [CreateContentManyDataInput])
+  data: CreateContentManyDataInput[];
 }

@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { type Prisma } from '@prisma/client';
 import { DefaultArgs } from '@prisma/client/runtime/library';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateContentDto } from './dto/create-content.dto';
+import { hasDuplicates } from 'src/utils/hasDuplicates';
+import {
+  CreateContentDto,
+  CreateManyContentDto,
+} from './dto/create-content.dto';
 import { UpdateContentDto } from './dto/update-content.dto';
 
 @Injectable()
@@ -129,9 +133,20 @@ export class ContentService {
     return deleted.count;
   }
 
-  async createMany(dto: CreateContentDto[]) {
+  async createMany(dto: CreateManyContentDto) {
+    if (
+      hasDuplicates(dto.data.map((el) => el.translation)) ||
+      hasDuplicates(dto.data.map((el) => el.sentence))
+    ) {
+      throw new Error('The elements must be uniq');
+    }
+
+    const data = await dto.data.map((el) => {
+      return { ...el, themeId: dto.themeId };
+    });
+
     const res = await this.prisma.content.createMany({
-      data: dto,
+      data,
     });
 
     return res.count;

@@ -4,7 +4,10 @@ import { Auth } from 'src/auth/decorators/auth.decorator';
 import { CurrentUser } from 'src/auth/decorators/user.decorator';
 import { ContentService } from './content.service';
 
-import { CreateContentDto } from './dto/create-content.dto';
+import {
+  CreateContentDto,
+  CreateManyContentDto,
+} from './dto/create-content.dto';
 import { UpdateContentDto } from './dto/update-content.dto';
 import { Content } from './entities/content.entity';
 
@@ -23,10 +26,9 @@ export class ContentResolver {
   @UsePipes(new ValidationPipe())
   @Auth()
   async createMany(
-    @Args({ name: 'createManyContentDto', type: () => [CreateContentDto] })
-    createContentDto: CreateContentDto[],
+    @Args('createManyContentDto') createManyContentDto: CreateManyContentDto,
   ) {
-    return await this.contentService.createMany(createContentDto);
+    return await this.contentService.createMany(createManyContentDto);
   }
 
   @Query(() => [Content], { name: 'contents' })

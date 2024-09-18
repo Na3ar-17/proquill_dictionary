@@ -108,7 +108,7 @@ type Mutation {
   restart(themeId: String!): Boolean!
   validate(validateQuizDto: ValidateQuizDto!): ValidationResult!
   new_content(createContentDto: CreateContentDto!): Content!
-  new_contents(createManyContentDto: [CreateContentDto!]!): Int!
+  new_contents(createManyContentDto: CreateManyContentDto!): Int!
   update_content(updateContentDto: UpdateContentDto!): Content!
   delete_many_content(ids: [String!]!, themeId: String!): Int!
   delete_content(id: String!, themeId: String!): Content!
@@ -150,6 +150,17 @@ input CreateContentDto {
   exampleSentences: [String!]
   imageUrl: String
   themeId: String!
+  transcription: String
+}
+
+input CreateManyContentDto {
+  themeId: String!
+  data: [CreateContentManyDataInput!]!
+}
+
+input CreateContentManyDataInput {
+  sentence: String!
+  translation: String!
   transcription: String
 }
 
