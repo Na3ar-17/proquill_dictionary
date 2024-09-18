@@ -11,8 +11,6 @@ import { QuizModule } from './quiz/quiz.module';
 import { ThemeModule } from './theme/theme.module';
 import { UserModule } from './user/user.module';
 const ENV = process.env.NODE_ENV;
-console.log(ENV);
-
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
