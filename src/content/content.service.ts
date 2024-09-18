@@ -14,6 +14,16 @@ export class ContentService {
   constructor(private prisma: PrismaService) {}
 
   async create(createContentDto: CreateContentDto) {
+    if (
+      await this.isDataExists(
+        createContentDto.themeId,
+        [createContentDto.sentence],
+        [createContentDto.translation],
+      )
+    ) {
+      throw new Error('Elements already exists');
+    }
+
     const newContent = await this.prisma.content.create({
       data: {
         sentence: createContentDto.sentence,
@@ -134,10 +144,32 @@ export class ContentService {
   }
 
   async createMany(dto: CreateManyContentDto) {
-    if (
-      hasDuplicates(dto.data.map((el) => el.translation)) ||
-      hasDuplicates(dto.data.map((el) => el.sentence))
-    ) {
+    const sentences = dto.data.map((el) => el.sentence);
+    const translations = dto.data.map((el) => el.translation);
+
+    // const existedData = await this.prisma.content.count({
+    //   where: {
+    //     themeId: dto.themeId,
+    //     OR: [
+    //       {
+    //         sentence: {
+    //           in: sentences,
+    //         },
+    //       },
+    //       {
+    //         translation: {
+    //           in: translations,
+    //         },
+    //       },
+    //     ],
+    //   },
+    // });
+
+    if (await this.isDataExists(dto.themeId, sentences, translations)) {
+      throw new Error('The elements must be uniq');
+    }
+
+    if (hasDuplicates(translations) || hasDuplicates(sentences)) {
       throw new Error('The elements must be uniq');
     }
 
@@ -150,5 +182,30 @@ export class ContentService {
     });
 
     return res.count;
+  }
+  async isDataExists(
+    themeId: string,
+    sentences: string[],
+    translations: string[],
+  ) {
+    const existedData = await this.prisma.content.count({
+      where: {
+        themeId: themeId,
+        OR: [
+          {
+            sentence: {
+              in: sentences,
+            },
+          },
+          {
+            translation: {
+              in: translations,
+            },
+          },
+        ],
+      },
+    });
+
+    return existedData >= 1;
   }
 }
