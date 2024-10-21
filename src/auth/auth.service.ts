@@ -107,4 +107,9 @@ export class AuthService {
       ...tokens,
     };
   }
+
+  async validateRefreshToken(refreshToken: string) {
+    const decoded = this.jwt.verify(refreshToken);
+    console.log(decoded);
+  }
 }

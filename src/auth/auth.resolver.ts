@@ -68,4 +68,15 @@ export class AuthResolver {
     this.authService.removeRefreshTokenFromResponse(context.res);
     return true;
   }
+
+  @Mutation(() => Boolean, { name: 'validate_refresh_token' })
+  @UsePipes(new ValidationPipe())
+  @Auth()
+  async validateRefreshToken(@Context() context) {
+    const { res, req }: GqlContext = context;
+    this.authService.validateRefreshToken(
+      req.headers.cookie[this.authService.REFRESH_TOKEN_NAME],
+    );
+    return true;
+  }
 }

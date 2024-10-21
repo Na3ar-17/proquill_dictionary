@@ -101,6 +101,7 @@ type Mutation {
   register(registerDto: CreateUserDto!): AuthResponse!
   tokens: TokensResponse!
   logout: Boolean!
+  validate_refresh_token: Boolean!
   new_theme: Theme!
   update_theme(updateThemeDto: UpdateThemeDto!): Theme!
   delete_one_or_more_theme(ids: [String!]!): Int!
